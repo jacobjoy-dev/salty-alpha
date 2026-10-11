@@ -2,7 +2,6 @@ from fontTools.misc.roundTools import noRound, otRound
 from fontTools.misc.transform import Transform
 from fontTools.pens.filterPen import FilterPen, FilterPointPen
 
-
 __all__ = ["RoundingPen", "RoundingPointPen"]
 
 
@@ -116,8 +115,8 @@ class RoundingPointPen(FilterPointPen):
     def addComponent(self, baseGlyphName, transformation, identifier=None, **kwargs):
         xx, xy, yx, yy, dx, dy = transformation
         self._outPen.addComponent(
-            baseGlyphName=baseGlyphName,
-            transformation=Transform(
+            baseGlyphName,
+            Transform(
                 self.transformRoundFunc(xx),
                 self.transformRoundFunc(xy),
                 self.transformRoundFunc(yx),

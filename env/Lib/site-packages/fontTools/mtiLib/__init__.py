@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # FontDame-to-FontTools for OpenType Layout tables
 #
 # Source language spec is available at:
@@ -630,7 +628,7 @@ class ContextHelper(object):
                 (r.GlyphCount,) = (len(x) + 1 for x in d)
 
             def ChainSetRuleData(r, d):
-                (r.Backtrack, r.Input, r.LookAhead) = d
+                r.Backtrack, r.Input, r.LookAhead = d
                 (
                     r.BacktrackGlyphCount,
                     r.InputGlyphCount,
@@ -651,7 +649,7 @@ class ContextHelper(object):
                 (r.ClassDef,) = d
 
             def SetChainContextData(r, d):
-                (r.BacktrackClassDef, r.InputClassDef, r.LookAheadClassDef) = d
+                r.BacktrackClassDef, r.InputClassDef, r.LookAheadClassDef = d
 
             RuleData = lambda r: (r.Class,)
             ChainRuleData = lambda r: (r.Backtrack, r.Input, r.LookAhead)
@@ -661,7 +659,7 @@ class ContextHelper(object):
                 (r.GlyphCount,) = (len(x) + 1 for x in d)
 
             def ChainSetRuleData(r, d):
-                (r.Backtrack, r.Input, r.LookAhead) = d
+                r.Backtrack, r.Input, r.LookAhead = d
                 (
                     r.BacktrackGlyphCount,
                     r.InputGlyphCount,
@@ -685,7 +683,7 @@ class ContextHelper(object):
                 (r.GlyphCount,) = (len(x) for x in d)
 
             def ChainSetRuleData(r, d):
-                (r.BacktrackCoverage, r.InputCoverage, r.LookAheadCoverage) = d
+                r.BacktrackCoverage, r.InputCoverage, r.LookAheadCoverage = d
                 (
                     r.BacktrackGlyphCount,
                     r.InputGlyphCount,
@@ -1377,7 +1375,7 @@ def main(args=None, font=None):
 
     for f in args.inputs:
         log.debug("Processing %s", f)
-        with open(f, "rt", encoding="utf-8") as f:
+        with open(f, "rt", encoding="utf-8-sig") as f:
             table = build(f, font, tableTag=args.tableTag)
         blob = table.compile(font)  # Make sure it compiles
         decompiled = table.__class__()
