@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SOC Dashboard - ThreatPro{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Security Operations Dashboard</h2>
+        <p class="text-muted small mb-0">Real-time threat monitoring and incident activity for analyst <strong>{{ request.user.username }}</strong></p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'upload_log_file' %}" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" x2="12" y1="3" y2="15"/>
+            </svg>
+            Upload New Log
+        </a>
+        <a href="{% url 'report_incident' %}" class="btn btn-outline-danger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" x2="12" y1="8" y2="12"/>
+                <line x1="12" x2="12.01" y1="16" y2="16"/>
+            </svg>
+            Report Incident
+        </a>
+    </div>
+</div>
+
+<!-- Row of Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card h-100 p-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Total Logs</span>
+                    <h3 class="fw-bold mt-2 mb-0" style="color: var(--text-primary);">{{ logs|length }}</h3>
+                    <small class="text-muted">Uploaded files</small>
+                </div>
+                <div class="p-2 rounded" style="background: rgba(56, 189, 248, 0.12); color: var(--accent-blue);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <div class="card h-100 p-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Threats Detected</span>
+                    <h3 class="fw-bold mt-2 mb-0" style="color: var(--accent-cyan);">{{ threats|length }}</h3>
+                    <small class="text-muted">Signature matches</small>
+                </div>
+                <div class="p-2 rounded" style="background: rgba(6, 182, 212, 0.12); color: var(--accent-cyan);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                        <line x1="12" x2="12" y1="9" y2="13"/>
+                        <line x1="12" x2="12.01" y1="17" y2="17"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <div class="card h-100 p-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">High Severity</span>
+                    <h3 class="fw-bold mt-2 mb-0" style="color: var(--severity-high);">
+                        {% with high_count=0 %}
+                            {% for t in threats %}
+                                {% if t.severity == 'High' %}
+                                    {% with high_count=high_count|add:1 %}{% endwith %}
+                                {% endif %}
+                            {% endfor %}
+                            {{ threats.count }}
+                        {% endwith %}
+                    </h3>
+                    <small class="text-muted">Critical attention</small>
+                </div>
+                <div class="p-2 rounded" style="background: rgba(239, 68, 68, 0.15); color: var(--severity-high);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 9v4"/>
+                        <path d="M12 17h.01"/>
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <div class="card h-100 p-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Open Incidents</span>
+                    <h3 class="fw-bold mt-2 mb-0" style="color: var(--severity-medium);">{{ incidents|length }}</h3>
+                    <small class="text-muted">Tracked reports</small>
+                </div>
+                <div class="p-2 rounded" style="background: rgba(245, 158, 11, 0.12); color: var(--severity-medium);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" x2="12" y1="6" y2="12"/>
+                        <line x1="12" x2="18" y1="12" y2="12"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Severity Chart Panel -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Threat Severity Distribution</span>
+                <span class="badge badge-info">Telemetry</span>
+            </div>
+            <div class="card-body d-flex flex-column align-items-center justify-content-center p-4">
+                {% if threat_chart %}
+                    <img src="data:image/png;base64,{{ threat_chart }}" alt="Threat Analysis Chart" class="img-fluid rounded" style="max-height: 280px;">
+                {% else %}
+                    <div class="text-center py-4">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted mb-2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m4.93 4.93 14.14 14.14"/>
+                        </svg>
+                        <p class="text-muted mb-0 small">No severity distribution data available</p>
+                        <a href="{% url 'upload_log_file' %}" class="btn btn-outline-primary btn-sm mt-2">Upload Logs to Analyze</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Uploaded Logs Activity -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Uploaded Log Archives</span>
+                <a href="{% url 'upload_log_file' %}" class="small text-decoration-none" style="color: var(--accent-cyan);">+ Upload</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Log Filename</th>
+                                <th>Timestamp</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logs %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted">
+                                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                                <polyline points="14 2 14 8 20 8"/>
+                                            </svg>
+                                            <span class="fw-medium text-break">{{ log.log_file.name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted small">{{ log.uploaded_at|date:"M d, Y H:i" }}</td>
+                                    <td class="text-end">
+                                        <a href="{% url 'threat_frequency_chart' log.id %}" class="btn btn-secondary btn-sm py-1 px-2">Chart</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center py-4 text-muted small">
+                                        No log files uploaded yet. Click "Upload New Log" to begin threat scanning.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Threat Detections in a Styled Table -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Recent Suspicious Detections</span>
+        <a href="{% url 'threat_list' %}" class="small text-decoration-none" style="color: var(--accent-cyan);">View All Threats &rarr;</a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Threat Classification</th>
+                        <th>Target IP / Source</th>
+                        <th>Severity</th>
+                        <th>Detection Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for threat in threats %}
+                        <tr>
+                            <td class="fw-semibold">
+                                <span style="color: var(--text-primary);">{{ threat.threat_type }}</span>
+                            </td>
+                            <td>
+                                <code>{{ threat.ip_address|default:"Log Pattern" }}</code>
+                            </td>
+                            <td>
+                                {% if threat.severity == 'High' %}
+                                    <span class="badge badge-high">High</span>
+                                {% elif threat.severity == 'Medium' %}
+                                    <span class="badge badge-medium">Medium</span>
+                                {% else %}
+                                    <span class="badge badge-low">Low</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-muted small">{{ threat.detected_at|date:"M d, Y H:i" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted small">
+                                <span class="text-success fw-medium">&check; No suspicious activity detected. All systems nominal.</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Reported Incidents Table -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Reported Incidents</span>
+        <a href="{% url 'report_incident' %}" class="small text-decoration-none" style="color: var(--accent-cyan);">+ New Incident</a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Incident Title</th>
+                        <th>Status</th>
+                        <th>Reported On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for incident in incidents %}
+                        <tr>
+                            <td class="fw-semibold text-break">{{ incident.title }}</td>
+                            <td>
+                                {% if incident.status == 'Resolved' %}
+                                    <span class="badge badge-low">Resolved</span>
+                                {% elif incident.status == 'Investigating' %}
+                                    <span class="badge badge-medium">Investigating</span>
+                                {% else %}
+                                    <span class="badge badge-high">Open</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-muted small">{{ incident.reported_at|date:"M d, Y H:i"|default:"Recently" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-muted small">
+                                No active incidents reported.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

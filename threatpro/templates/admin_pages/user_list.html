@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User Directory - ThreatPro SOC{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-sm py-1 px-2" style="font-size: 0.75rem;">
+                &larr; Admin Portal
+            </a>
+            <h2 class="fw-bold mb-0" style="color: var(--text-primary); letter-spacing: -0.02em;">Analyst &amp; User Registry</h2>
+        </div>
+        <p class="text-muted small mb-0">Authorized accounts, privilege tiers, and security operator profiles</p>
+    </div>
+    <div>
+        <span class="badge badge-info">Registered Accounts: {{ users|length }}</span>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Active User Accounts</span>
+        <span class="text-muted small">Total: {{ users|length }} analysts</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email Address</th>
+                        <th>Phone</th>
+                        <th>Access Role</th>
+                        <th class="text-end" style="width: 140px;">Revoke Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="soc-user-avatar" style="width: 28px; height: 28px; font-size: 0.8rem;">
+                                        {{ user.username|slice:":1"|upper }}
+                                    </div>
+                                    <span class="fw-semibold" style="color: var(--text-primary);">{{ user.username }}</span>
+                                </div>
+                            </td>
+                            <td class="text-muted small">{{ user.email|default:"Not specified" }}</td>
+                            <td class="text-muted small">{{ user.phone|default:"-" }}</td>
+                            <td>
+                                {% if user.is_superuser %}
+                                    <span class="badge badge-high">SUPERUSER</span>
+                                {% else %}
+                                    <span class="badge badge-info">ANALYST</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="{% url 'delete_user' user.id %}" 
+                                   class="btn btn-outline-danger btn-sm py-1 px-2"
+                                   onclick="return confirm('⚠️ SECURITY CONFIRMATION:\n\nAre you sure you want to permanently delete user account \'{{ user.username }}\'?');">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1">
+                                        <polyline points="3 6 5 6 21 6"/>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    </svg>
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted small">No users found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

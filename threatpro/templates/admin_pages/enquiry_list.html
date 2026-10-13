@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact Inquiries - ThreatPro SOC{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-sm py-1 px-2" style="font-size: 0.75rem;">
+                &larr; Admin Portal
+            </a>
+            <h2 class="fw-bold mb-0" style="color: var(--text-primary); letter-spacing: -0.02em;">Analyst Inquiries &amp; Messages</h2>
+        </div>
+        <p class="text-muted small mb-0">Messages submitted through the platform landing contact form</p>
+    </div>
+    <div>
+        <span class="badge badge-info">Total Inquiries: {{ enquiries|length }}</span>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Logged Contact Submissions</span>
+        <span class="text-muted small">Showing all records</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th style="min-width: 140px;">Sender Name</th>
+                        <th style="min-width: 180px;">Email Address</th>
+                        <th style="min-width: 120px;">Phone</th>
+                        <th>Inquiry Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enquiry in enquiries %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="soc-user-avatar" style="width: 28px; height: 28px; font-size: 0.8rem; background: var(--bg-surface-elevated); color: var(--accent-cyan); border: 1px solid var(--border-subtle);">
+                                        {{ enquiry.name|slice:":1"|upper }}
+                                    </div>
+                                    <span class="fw-semibold" style="color: var(--text-primary);">{{ enquiry.name }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="mailto:{{ enquiry.email }}" class="small" style="color: var(--accent-cyan); text-decoration: none;">
+                                    {{ enquiry.email }}
+                                </a>
+                            </td>
+                            <td class="text-muted small">{{ enquiry.phone|default:"-" }}</td>
+                            <td>
+                                <span class="text-break small" style="color: var(--text-secondary);">
+                                    {{ enquiry.message }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted small">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted mb-2">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                                </svg>
+                                <div>No contact inquiries received yet.</div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

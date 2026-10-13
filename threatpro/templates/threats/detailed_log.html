@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Detailed Log Inspection - ThreatPro SOC{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Detailed Log Records</h2>
+        <p class="text-muted small mb-0">Tabular packet request breakdown with instant client-side keyword filtering</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'upload_log_file' %}" class="btn btn-outline-primary btn-sm">
+            Upload Another Log
+        </a>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-sm">
+            Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-info">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" x2="8" y1="13" y2="13"/>
+                <line x1="16" x2="8" y1="17" y2="17"/>
+            </svg>
+            <span>Raw Access Log Streams</span>
+        </div>
+        
+        <!-- Search Input -->
+        <div class="d-flex align-items-center gap-2" style="max-width: 320px; width: 100%;">
+            <input type="text" id="logSearchInput" class="form-control form-control-sm" placeholder="Filter by IP, method, status, URL...">
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+        {% if log_data %}
+            <div class="table-responsive" style="overflow-x: auto; max-height: 70vh;">
+                <table class="table table-hover align-middle mb-0" id="detailedLogsTable" style="min-width: 780px;">
+                    <thead style="position: sticky; top: 0; z-index: 5;">
+                        <tr>
+                            <th style="min-width: 140px;">Client IP</th>
+                            <th style="min-width: 170px;">Timestamp</th>
+                            <th style="min-width: 90px;">Method</th>
+                            <th>Requested URL</th>
+                            <th style="min-width: 90px;">HTTP Status</th>
+                            <th style="min-width: 160px;">Threat Classification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in log_data %}
+                            <tr class="log-row">
+                                <td>
+                                    <code>{{ log.ip }}</code>
+                                </td>
+                                <td class="text-muted small">{{ log.timestamp }}</td>
+                                <td>
+                                    <span class="badge {% if log.method == 'GET' %}badge-info{% elif log.method == 'POST' %}badge-medium{% elif log.method == 'DELETE' %}badge-high{% else %}badge-low{% endif %}">
+                                        {{ log.method }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-break font-monospace small" style="color: var(--text-primary);">{{ log.url }}</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold small {% if log.status == '200' %}text-success{% elif log.status == '401' or log.status == '403' %}text-warning{% elif log.status == '404' %}text-info{% else %}text-danger{% endif %}">
+                                        {{ log.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if 'Normal' in log.threat_level or 'Successful' in log.threat_level %}
+                                        <span class="badge badge-low">{{ log.threat_level }}</span>
+                                    {% elif 'Brute' in log.threat_level or 'Admin' in log.threat_level %}
+                                        <span class="badge badge-high">{{ log.threat_level }}</span>
+                                    {% else %}
+                                        <span class="badge badge-medium">{{ log.threat_level }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="p-3 border-top d-flex justify-content-between align-items-center text-muted small" style="border-color: var(--border-subtle) !important;">
+                <span id="rowCountDisplay">Showing {{ log_data|length }} parsed records</span>
+                <span>Horizontally scrollable on compact displays</span>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted mb-2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" x2="12" y1="8" y2="12"/>
+                    <line x1="12" x2="12.01" y1="16" y2="16"/>
+                </svg>
+                <p class="text-muted mb-3">No log records parsed or available.</p>
+                <a href="{% url 'upload_log_file' %}" class="btn btn-primary btn-sm">Upload Log File</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById('logSearchInput');
+        const rows = document.querySelectorAll('.log-row');
+        const rowCount = document.getElementById('rowCountDisplay');
+        const total = rows.length;
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                let visible = 0;
+
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    if (text.includes(query)) {
+                        row.style.display = '';
+                        visible++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                if (rowCount) {
+                    rowCount.textContent = query ? `Showing ${visible} of ${total} records` : `Showing ${total} parsed records`;
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

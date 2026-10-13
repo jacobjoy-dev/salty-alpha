@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Reputation Check - ThreatPro SOC{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-xl-8">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Threat Intelligence Lookup</h2>
+            <p class="text-muted small mb-0">Query IP addresses with AbuseIPDB or domains with VirusTotal for malicious scores and reputation</p>
+        </div>
+
+        <!-- Search Box Card -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Reputation Intelligence Scanner</span>
+                <span class="badge badge-info">AbuseIPDB &bull; VirusTotal</span>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" id="reputation-search-form">
+                    {% csrf_token %}
+                    <label class="form-label mb-2">Target IP Address or Domain FQDN</label>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text" style="background: var(--bg-surface-elevated); border-color: var(--border-subtle); color: var(--accent-cyan);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" x2="16.65" y1="21" y2="16.65"/>
+                            </svg>
+                        </span>
+                        <input type="text" name="query" class="form-control" placeholder="e.g. 8.8.8.8, 192.168.1.1 or example.com" required autofocus>
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                            Check Reputation
+                        </button>
+                    </div>
+                    <div class="form-text text-muted small mt-2">
+                        Automatic format detection: IPv4/IPv6 routed to AbuseIPDB API; Domain names routed to VirusTotal API.
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Or Upload Log File Box -->
+        <div class="card">
+            <div class="card-header">
+                <span>Alternative: Batch Scan Through Access Logs</span>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data" class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    {% csrf_token %}
+                    <div>
+                        <h6 class="fw-semibold mb-1" style="color: var(--text-primary);">Upload Server Access Log</h6>
+                        <p class="text-muted small mb-0">Scan all client IPs extracted from an access log file simultaneously</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input type="file" name="log_file" id="rep-log-input" style="display: none;" onchange="this.form.submit()">
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('rep-log-input').click()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" x2="12" y1="3" y2="15"/>
+                            </svg>
+                            Choose Log &amp; Analyze
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
