@@ -6,13 +6,13 @@ from ..forms import IncidentReportForm
 
 @login_required
 def report_incident(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = IncidentReportForm(request.POST)
         if form.is_valid():
             incident = form.save(commit=False)
             incident.user = request.user
             incident.save()
-            return redirect('dashboard')
+            return redirect("dashboard")
     else:
         form = IncidentReportForm()
-    return render(request, 'incidents/report_incident.html', {'form': form})
+    return render(request, "incidents/report_incident.html", {"form": form})

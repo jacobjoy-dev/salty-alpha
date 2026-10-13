@@ -11,10 +11,10 @@ class CustomUser(AbstractUser):
 
 
 class ThreatLog(models.Model):
-    log_file = models.FileField(upload_to='logs/')
+    log_file = models.FileField(upload_to="logs/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     analyzed = models.BooleanField(default=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='logs', null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="logs", null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.log_file.name} - {self.uploaded_at}"
@@ -24,7 +24,7 @@ class ThreatDetection(models.Model):
     log = models.ForeignKey(ThreatLog, on_delete=models.CASCADE, related_name="threats")
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     threat_type = models.CharField(max_length=200)
-    severity = models.CharField(max_length=50, choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High')])
+    severity = models.CharField(max_length=50, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")])
     detected_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -47,10 +47,10 @@ class IncidentReport(models.Model):
     description = models.TextField()
     status = models.CharField(
         max_length=50,
-        choices=[('Open', 'Open'), ('Investigating', 'Investigating'), ('Resolved', 'Resolved')],
+        choices=[("Open", "Open"), ("Investigating", "Investigating"), ("Resolved", "Resolved")],
     )
     reported_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='incidents', null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="incidents", null=True)
 
     def __str__(self):
         return self.title

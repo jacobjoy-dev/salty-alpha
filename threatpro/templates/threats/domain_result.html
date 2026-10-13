@@ -129,6 +129,11 @@
                 </svg>
                 <h5 class="fw-semibold">No Domain Records Found</h5>
                 <p class="text-muted small mb-3">Target domain <code>{{ query }}</code> could not be scanned or returned no threat records.</p>
+                {% if error %}
+                <div class="alert alert-danger small py-2 mb-3" style="font-size: 0.8rem;">
+                    <strong>Error:</strong> {{ error }}
+                </div>
+                {% endif %}
                 <div>
                     <a href="{% url 'check_reputation' %}" class="btn btn-primary btn-sm">Try Another Search</a>
                 </div>

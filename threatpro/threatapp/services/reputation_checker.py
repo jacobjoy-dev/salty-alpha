@@ -1,7 +1,10 @@
 import ipaddress
+import logging
 
 import requests
 from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 def is_public_ip(ip):
@@ -16,10 +19,7 @@ def check_ip_reputation(ip):
         return None, "Private or invalid IP. Only public IPs can be checked."
 
     url = "https://api.abuseipdb.com/api/v2/check"
-    headers = {
-        "Key": settings.ABUSEIPDB_API_KEY,
-        "Accept": "application/json"
-    }
+    headers = {"Key": settings.ABUSEIPDB_API_KEY, "Accept": "application/json"}
     params = {"ipAddress": ip, "maxAgeInDays": 90}
 
     try:
@@ -37,8 +37,10 @@ def check_ip_reputation(ip):
                 "message": message,
             }, None
         else:
+            logger.warning(f"AbuseIPDB API error for {ip}: {data.get('errors', 'Unknown error')}")
             return None, f"Error: {data.get('errors', 'Unknown error')}"
     except Exception as e:
+        logger.exception(f"AbuseIPDB API exception for {ip}")
         return None, str(e)
 
 
@@ -62,6 +64,13 @@ def check_domain_reputation(domain):
                 "message": message,
             }, None
         else:
+            logger.warning(
+                "VirusTotal API error for %s: status=%s, error=%s",
+                domain,
+                response.status_code,
+                data.get("error", "Unknown error"),
+            )
             return None, f"Error: {data.get('error', 'Unknown error')}"
     except Exception as e:
+        logger.exception(f"VirusTotal API exception for {domain}")
         return None, str(e)

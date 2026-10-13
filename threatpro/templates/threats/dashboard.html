@@ -72,16 +72,7 @@
             <div class="d-flex justify-content-between align-items-start">
                 <div>
                     <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">High Severity</span>
-                    <h3 class="fw-bold mt-2 mb-0" style="color: var(--severity-high);">
-                        {% with high_count=0 %}
-                            {% for t in threats %}
-                                {% if t.severity == 'High' %}
-                                    {% with high_count=high_count|add:1 %}{% endwith %}
-                                {% endif %}
-                            {% endfor %}
-                            {{ threats.count }}
-                        {% endwith %}
-                    </h3>
+                    <h3 class="fw-bold mt-2 mb-0" style="color: var(--severity-high);">{{ high_severity_count }}</h3>
                     <small class="text-muted">Critical attention</small>
                 </div>
                 <div class="p-2 rounded" style="background: rgba(239, 68, 68, 0.15); color: var(--severity-high);">
