@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Threat List - ThreatPro{% endblock %}
+{% block content %}
+<h2 class="mb-4">Threat Detection List</h2>
+<a href="{% url 'add_threat' %}" class="btn btn-success mb-3">➕ Add New Threat</a>
+
+{% if threats %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Log ID</th>
+                <th>Threat Type</th>
+                <th>Severity</th>
+                <th>Detected At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for threat in threats %}
+            <tr>
+                <td>{{ threat.log.id }}</td>
+                <td>{{ threat.threat_type }}</td>
+                <td>
+                    <span class="badge
+                        {% if threat.severity == 'High' %} bg-danger
+                        {% elif threat.severity == 'Medium' %} bg-warning text-dark
+                        {% else %} bg-success{% endif %}">
+                        {{ threat.severity }}
+                    </span>
+                </td>
+                <td>{{ threat.detected_at }}</td>
+                <td>
+                    <a href="{% url 'update_threat' threat.id %}" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
+                    <a href="{% url 'delete_threat' threat.id %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">No threats found.</p>
+{% endif %}
+{% endblock %}

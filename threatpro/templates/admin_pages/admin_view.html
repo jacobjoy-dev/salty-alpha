@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}Admin Threat Statistics - ThreatPro{% endblock %}
+{% block content %}
+<h2 class="mb-4">📊 Threat Detection Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-header bg-danger text-white">🔴 High Severity</div>
+            <div class="card-body">
+                <h2 class="text-danger">{{ high_severity }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-header bg-warning">🟠 Medium Severity</div>
+            <div class="card-body">
+                <h2 class="text-warning">{{ medium_severity }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-header bg-success text-white">🟢 Low Severity</div>
+            <div class="card-body">
+                <h2 class="text-success">{{ low_severity }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-4">📈 Threat Statistics</h3>
+<canvas id="threatChart" width="800" height="400"></canvas>
+
+<h3 class="mt-4">📑 Latest Threats</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Threat Type</th>
+                <th>Severity</th>
+                <th>Detected At</th>
+                <th>IP Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for threat in latest_threats %}
+            <tr>
+                <td>{{ threat.threat_type }}</td>
+                <td>
+                    <span class="badge
+                        {% if threat.severity == 'High' %} bg-danger
+                        {% elif threat.severity == 'Medium' %} bg-warning text-dark
+                        {% else %} bg-success{% endif %}">
+                        {{ threat.severity }}
+                    </span>
+                </td>
+                <td>{{ threat.detected_at }}</td>
+                <td>{{ threat.ip_address|default:"N/A" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No threats detected</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('threatChart').getContext('2d');
+        var threatChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ threat_labels|safe }},
+                datasets: [{
+                    label: 'Threat Count',
+                    data: {{ threat_values|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    });
+</script>
+{% endblock %}

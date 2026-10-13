@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Admin Log Analysis - ThreatPro{% endblock %}
+{% block content %}
+<h2 class="mb-4">Admin Log Analysis Report</h2>
+
+<h3 class="mt-4">Log Entries</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>IP</th><th>Timestamp</th><th>Method</th><th>URL</th><th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in log_data %}
+            <tr>
+                <td>{{ log.ip }}</td>
+                <td>{{ log.timestamp }}</td>
+                <td>{{ log.method }}</td>
+                <td>{{ log.url }}</td>
+                <td>{{ log.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h3 class="mt-4">Detected Threats</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Type</th><th>Severity</th><th>Detected At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for threat in threat_data %}
+            <tr>
+                <td>{{ threat.threat_type }}</td>
+                <td>
+                    <span class="badge
+                        {% if threat.severity == 'High' %} bg-danger
+                        {% elif threat.severity == 'Medium' %} bg-warning text-dark
+                        {% else %} bg-success{% endif %}">
+                        {{ threat.severity }}
+                    </span>
+                </td>
+                <td>{{ threat.detected_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

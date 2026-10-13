@@ -14,8 +14,9 @@ __pycache__/
 db.sqlite3
 db.sqlite3-journal
 
-# Media & Static
-media/
+# Media & Static (collected)
+media/logs/*
+!media/logs/.gitkeep
 staticfiles/
 
 # IDE
@@ -36,3 +37,8 @@ Thumbs.db
 htmlcov/
 .pytest_cache/
 .tox/
+
+# Distribution
+*.egg-info/
+dist/
+build/

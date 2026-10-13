@@ -33,14 +33,48 @@ Developed as a final-year project at **Yenepoya University**.
 
 ```
 salty-alpha/
-├── DOCUMENTS/              # Project synopsis and final report
-└── env/threatpro/          # Django project
+├── .env.example              # Environment variable template
+├── .gitignore
+├── requirements.txt          # Python dependencies
+├── requirements-dev.txt      # Development dependencies
+├── .pre-commit-config.yaml   # Pre-commit hooks
+├── .github/workflows/ci.yml  # GitHub Actions CI
+├── pyproject.toml            # Project metadata
+├── DOCUMENTS/                # Project synopsis and final report
+└── threatpro/                # Django project
     ├── manage.py
-    ├── threatpro/          # Project settings and root URLs
-    ├── threatapp/          # Models, views, forms, app URLs
-    ├── templates/          # HTML templates
-    ├── static/             # CSS, JS and images
-    └── media/logs/         # Uploaded log files
+    ├── threatpro/
+    │   ├── settings.py       # Settings (loads from .env)
+    │   ├── urls.py           # Root URLs
+    │   └── wsgi.py
+    ├── threatapp/
+    │   ├── models.py         # Database models
+    │   ├── forms.py          # Django forms
+    │   ├── urls.py           # App URLs
+    │   ├── views/            # View modules
+    │   │   ├── auth.py       # Authentication views
+    │   │   ├── threats.py    # Threat detection views
+    │   │   ├── reputation.py # Reputation checker views
+    │   │   ├── incidents.py  # Incident reporting views
+    │   │   ├── admin_views.py# Admin dashboard views
+    │   │   ├── threat_crud.py# Threat CRUD views
+    │   │   └── ...
+    │   ├── services/         # Business logic
+    │   │   ├── log_analyzer.py      # Log analysis & threat patterns
+    │   │   ├── reputation_checker.py# API reputation checks
+    │   │   └── chart_generator.py   # Matplotlib charts
+    │   └── tests/            # Pytest test suite
+    │       ├── test_models.py
+    │       ├── test_services/
+    │       └── test_views/
+    ├── templates/
+    │   ├── base.html         # Base template
+    │   ├── accounts/         # Auth templates
+    │   ├── threats/          # Threat detection templates
+    │   ├── incidents/        # Incident templates
+    │   └── admin_pages/      # Admin templates
+    ├── static/               # CSS, JS, images
+    └── media/logs/           # Uploaded log files
 ```
 
 ## Getting Started
@@ -55,32 +89,66 @@ salty-alpha/
 
 ```bash
 git clone https://github.com/jacobjoy-dev/salty-alpha.git
-cd salty-alpha/env/threatpro
+cd salty-alpha
 
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 
-pip install django matplotlib requests pillow numpy
+pip install -r requirements.txt
 ```
 
-### Configure API keys
+### Configure Environment Variables
 
-Open `threatpro/settings.py` and set your own keys:
+Copy `.env.example` to `.env` and fill in your values:
 
-```python
-ABUSEIPDB_API_KEY = "your-abuseipdb-key"
-VIRUSTOTAL_API_KEY = "your-virustotal-key"
+```bash
+cp .env.example .env
+# Edit .env with your API keys
 ```
+
+Required variables:
+- `SECRET_KEY` - Django secret key (generate with `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`)
+- `DEBUG` - Set to `True` for development
+- `ALLOWED_HOSTS` - Comma-separated hosts (e.g., `localhost,127.0.0.1`)
+- `ABUSEIPDB_API_KEY` - Your AbuseIPDB API key
+- `VIRUSTOTAL_API_KEY` - Your VirusTotal API key
 
 ### Set up the database and run
 
 ```bash
+cd threatpro
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
 
 Open `http://127.0.0.1:8000/` in your browser. The Django admin is available at `/admin/`.
+
+## Development
+
+### Run tests
+
+```bash
+cd threatpro
+pytest -v
+```
+
+### Code quality
+
+```bash
+# Format code
+ruff format .
+black .
+
+# Lint
+ruff check .
+```
+
+### Pre-commit hooks
+
+```bash
+pre-commit install
+```
 
 ## How to Use
 

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Domain Reputation Result - ThreatPro{% endblock %}
+{% block content %}
+<div class="container">
+    <h2 class="text-center mt-4 mb-4">🌍 Domain Reputation Result</h2>
+
+    {% if result %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Domain</th>
+                        <th>Reputation Score</th>
+                        <th>Blacklisted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ query }}</td>
+                        <td>{{ result.reputation_score }}%</td>
+                        <td>{% if result.blacklisted %} <span class="badge bg-danger">🚨 Yes</span> {% else %} <span class="badge bg-success">✅ No</span> {% endif %}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if result.message %}
+            <p class="mt-2">{{ result.message }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">⚠️ No results found.</div>
+    {% endif %}
+
+    <div class="text-center mt-3">
+        <a href="{% url 'check_reputation' %}" class="btn btn-primary">🔍 New Search</a>
+    </div>
+</div>
+{% endblock %}

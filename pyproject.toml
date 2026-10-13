@@ -1,0 +1,30 @@
+[project]
+name = "threat-hunting-toolkit"
+version = "1.0.0"
+description = "A web-based threat hunting platform built with Django"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "threatpro.settings"
+pythonpath = ["threatpro"]
+testpaths = ["threatpro/threatapp/tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true

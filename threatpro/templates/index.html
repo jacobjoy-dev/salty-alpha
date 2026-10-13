@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Threat Hunting Toolkit{% endblock %}
+{% block extra_css %}
+<link href="{% static 'css/theme.min.css' %}" rel="stylesheet" />
+<link href="{% static 'css/user.min.css' %}" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<main class="main" id="top">
+    <section class="text-center overflow-hidden py-5" style="background-image:url({% static 'assets/images/bgimg.jpeg' %}); background-size: cover; background-position: center; color: white;">
+        <div class="container">
+            <div class="d-flex flex-center vh-50">
+                <div class="header-text">
+                    <h1 class="display-3 fs-5 fs-md-7">THREAT DETECTION</h1>
+                    <p class="text-uppercase text-400 ls-3 mt-2">System with AI</p>
+                    <a class="btn btn-sm btn-outline-light hvr-sweep-top mt-5 px-4" href="{% url 'register' %}">Get Started Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" id="about-us">
+        <div class="container">
+            <div class="row mb-4 text-center">
+                <div class="col">
+                    <h2 class="fs-sm-5 mb-2">about us</h2>
+                    <p class="text-uppercase fs--1 text-black ls-1 mb-0">Our System, in the simplest terms</p>
+                    <hr class="hr-short border-black" />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-4 text-md-end">
+                    <h5 class="ls-2 mb-3">We're Innovative</h5>
+                    <p class="mb-0">Our system is designed with cutting-edge technology to detect and prevent cyber threats efficiently. Ensuring robust security for a safer digital space.</p>
+                </div>
+                <div class="col-md-4 px-lg-4 my-4 my-md-0">
+                    <img class="rounded w-100 w-sm-75 w-md-100" src="{% static 'img/about.jpg' %}" alt="" />
+                </div>
+                <div class="col-md-4 text-md-start">
+                    <h5 class="ls-2 mb-3">We're Dedicated</h5>
+                    <p class="mb-0">Our team works tirelessly to create a secure digital environment, ensuring continuous protection against evolving cyber threats.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 text-center" id="services">
+        <div class="container">
+            <div class="row mb-4 text-center">
+                <div class="col">
+                    <h2 class="fs-md-5 mb-2">our services</h2>
+                    <p class="fs--1 text-uppercase text-black ls-1 mb-0">We specialize in IP Analysis, Domain Analysis, Log Analysis, and URL Analysis, offering cutting-edge solutions to enhance cybersecurity and threat detection.</p>
+                    <hr class="hr-short bg-black opacity-100" />
+                </div>
+            </div>
+            <div class="row text-center text-md-start">
+                <div class="col-sm-6 col-lg-4 mb-3">
+                    <div class="service-item p-3 p-md-4 h-100">
+                        <img class="service-icon" src="{% static 'img/line-icons/icons/ip.png' %}" alt="" />
+                        <h5 class="fw-normal ls-3 mb-2">IP Analysis</h5>
+                        <p class="fw-normal">Our team conducts in-depth IP analysis, identifying suspicious activities, tracking malicious sources, and preventing cyber threats.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mb-3">
+                    <div class="service-item p-3 p-md-4 h-100">
+                        <img class="service-icon" src="{% static 'img/line-icons/icons/domain.png' %}" alt="" />
+                        <h5 class="fw-normal ls-3 mb-2">Domain Analysis</h5>
+                        <p class="fw-normal">We analyze domain reputations, detect phishing domains, and help secure businesses from potential cyber attacks.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mb-3">
+                    <div class="service-item p-3 p-md-4 h-100">
+                        <img class="service-icon" src="{% static 'img/line-icons/icons/log.png' %}" alt="" />
+                        <h5 class="fw-normal ls-3 mb-2">Log Analysis</h5>
+                        <p class="fw-normal">Our automated log analysis system processes security logs efficiently, detecting anomalies and improving incident response times.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mb-3">
+                    <div class="service-item p-3 p-md-4 h-100">
+                        <img class="service-icon" src="{% static 'img/line-icons/icons/url.png' %}" alt="" />
+                        <h5 class="fw-normal ls-3 mb-2">URL Analysis</h5>
+                        <p class="fw-normal">We provide advanced URL analysis solutions, identifying malicious links, preventing phishing attacks, and ensuring safe web navigation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-6 text-center" style="background-image:url({% static 'img/backgrounds/do.jpg' %}); background-size: cover; background-position: center; color: white;">
+        <div class="container">
+            <h2 class="fs-sm-5 text-white mb-1 mb-lg-2">do you know</h2>
+            <p class="fs--1 text-uppercase text-white ls-1 mb-0">Some Cool Facts About Threat Detection</p>
+            <hr class="hr-short bg-white" />
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4 mb-lg-0">
+                    <img class="fun-fact-icon mb-2" src="{% static 'img/line-icons/icons/download.svg' %}" alt="" />
+                    <h3 class="text-white font-base fw-normal mb-1">7781914</h3>
+                    <p class="text-uppercase text-white fw-semi-bold ls-2 mb-0">Cyber threats detected and neutralized worldwide.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-lg-0">
+                    <img class="fun-fact-icon mb-2" src="{% static 'img/line-icons/icons/clock.svg' %}" alt="" />
+                    <h3 class="text-white font-base fw-normal mb-1">370704</h3>
+                    <p class="text-uppercase text-white fw-semi-bold ls-2 mb-0">Minutes of continuous monitoring to keep systems secure.</p>
+                </div>
+                <div class="col-md-4">
+                    <img class="fun-fact-icon mb-2" src="{% static 'img/line-icons/icons/battery.svg' %}" alt="" />
+                    <h3 class="text-white font-base fw-normal mb-1">12599</h3>
+                    <p class="text-uppercase text-white fw-semi-bold ls-2 mb-0">Security incidents analyzed to strengthen defenses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center mb-4">
+                    <h2 class="fs-md-5">Drop Us A Line</h2>
+                    <p class="fs--1 text-uppercase text-black ls-1 mb-0">We are happy to hear from you anytime</p>
+                    <hr class="hr-short border-black" />
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h5 class="mb-3">Feel free to drop us a line!</h5>
+                    <form method="POST" role="form" class="zform text-left">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form.email }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form.phone }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form.message }}
+                        </div>
+                        <button type="submit" class="btn btn-dark hvr-sweep-top">Give us a shot</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

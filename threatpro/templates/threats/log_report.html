@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Log Analysis Report - ThreatPro{% endblock %}
+{% block extra_css %}
+<style>
+    .threat-badge { padding: 5px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
+    .chart-btn { background: linear-gradient(135deg, #ff9a9e, #fad0c4); color: black; padding: 8px 15px; font-weight: bold; border-radius: 20px; text-decoration: none; transition: all 0.3s ease-in-out; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); }
+    .chart-btn:hover { background: linear-gradient(135deg, #ff758c, #ff7eb3); transform: scale(1.05); color: white; }
+    .table thead th { text-transform: uppercase; font-size: 16px; font-weight: bold; }
+    .table tbody tr:hover { background: linear-gradient(135deg, #fdfbfb, #ebedee); box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">🚀 Threat Analysis Report</h2>
+
+    {% if logs %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>📄 Log File</th>
+                    <th>📅 Uploaded At</th>
+                    <th>🔍 Analyzed</th>
+                    <th>⚠️ Threats</th>
+                    <th>📊 Threat Frequency Chart</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td class="fw-bold text-primary">{{ log.log_file.name }}</td>
+                    <td>{{ log.uploaded_at }}</td>
+                    <td>
+                        <span class="badge {% if log.analyzed %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ log.analyzed|yesno:"Yes,No" }}
+                        </span>
+                    </td>
+                    <td>
+                        {% for threat in log.threats.all %}
+                        <span class="badge threat-badge
+                            {% if threat.severity == 'High' %} bg-danger
+                            {% elif threat.severity == 'Medium' %} bg-warning text-dark
+                            {% else %} bg-success{% endif %}">
+                            {{ threat.threat_type }} ({{ threat.severity }})
+                        </span>
+                        {% if threat.ip_address %}
+                        <small class="text-muted d-block">IP: {{ threat.ip_address }}</small>
+                        {% endif %}
+                        {% empty %}
+                        <span class="text-muted">No threats detected</span>
+                        {% endfor %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'threat_frequency_chart' log.id %}" class="chart-btn" target="_blank">
+                            📊 View Chart
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No logs available.</p>
+    {% endif %}
+</div>
+{% endblock %}

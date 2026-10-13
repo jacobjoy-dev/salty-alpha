@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Threat Frequency Chart - ThreatPro{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Threat Frequency Chart for {{ log_name }}</h2>
+    
+    {% if labels and counts %}
+    <canvas id="threatChart" width="800" height="450"></canvas>
+    {% else %}
+    <p class="text-center text-muted">No threats found.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const labels = {{ labels|safe }};
+        const counts = {{ counts|safe }};
+
+        if (labels.length === 0) {
+            document.getElementById('threatChart').outerHTML = "<p class='text-center'>No threats found.</p>";
+            return;
+        }
+
+        function getRandomColor(opacity = 0.7) {
+            return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${opacity})`;
+        }
+
+        const backgroundColors = counts.map(count => count > 10 ? "rgba(255, 0, 0, 0.8)" : getRandomColor());
+        const borderColors = counts.map(count => count > 10 ? "rgba(200, 0, 0, 1)" : "rgba(0, 0, 0, 0.8)");
+
+        const ctx = document.getElementById('threatChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Threat Occurrences',
+                    data: counts,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: { duration: 2000, easing: 'easeInOutBounce' },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return ` ${tooltipItem.label}: ${tooltipItem.raw} occurrences`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Number of Occurrences', font: { size: 14 } }, ticks: { stepSize: 1, color: "#333", font: { weight: 'bold' } } },
+                    x: { title: { display: true, text: 'Threat Types', font: { size: 14 } }, ticks: { color: "#333", font: { weight: 'bold' } } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

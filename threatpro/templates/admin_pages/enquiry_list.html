@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Enquiry List - ThreatPro{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Contact Enquiries</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enquiry in enquiries %}
+                    <tr>
+                        <td>{{ enquiry.name }}</td>
+                        <td>{{ enquiry.phone }}</td>
+                        <td>{{ enquiry.email }}</td>
+                        <td>{{ enquiry.message }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-danger" disabled>🗑️ Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Update Threat - ThreatPro{% endblock %}
+{% block content %}
+<h2 class="mb-4">Update Threat Detection</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="{% url 'threat_list' %}" class="btn btn-secondary ms-2">⬅ Back to List</a>
+</form>
+{% endblock %}

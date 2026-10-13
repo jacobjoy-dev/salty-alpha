@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - ThreatPro{% endblock %}
+{% block content %}
+{% load static %}
+<h2>Dashboard</h2>
+
+<h3>Your Uploaded Logs</h3>
+<ul>
+    {% for log in logs %}
+    <li>{{ log.log_file.name }} - {{ log.uploaded_at }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'upload_log_file' %}" class="btn btn-primary">Upload New Log</a>
+
+<h3 class="mt-4">Threat Analysis</h3>
+{% if threat_chart %}
+<img src="data:image/png;base64,{{ threat_chart }}" alt="Threat Analysis Chart" class="img-fluid">
+{% else %}
+<p>No chart data available.</p>
+{% endif %}
+
+<h3 class="mt-4">Suspicious Activities Detected</h3>
+{% if threats %}
+<ul class="list-group">
+    {% for threat in threats %}
+    <li class="list-group-item"><b>{{ threat.threat_type }}</b> - Severity: {{ threat.severity }} ({{ threat.detected_at }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="text-success">No suspicious activity detected.</p>
+{% endif %}
+
+<h3 class="mt-4">Your Reported Incidents</h3>
+{% if incidents %}
+<ul class="list-group">
+    {% for incident in incidents %}
+    <li class="list-group-item">{{ incident.title }} - {{ incident.status }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No incidents reported.</p>
+{% endif %}
+
+<a href="{% url 'report_incident' %}" class="btn btn-outline-danger mt-3">Report an Incident</a>
+{% endblock %}

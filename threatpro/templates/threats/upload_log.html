@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Upload Log - ThreatPro{% endblock %}
+{% block extra_css %}
+<style>
+    .file-icon { width: 100px; height: 100px; opacity: 0.7; }
+    .file-button { background-color: transparent; border: 1px solid #0d6efd; color: #0d6efd; padding: 10px 25px; border-radius: 4px; cursor: pointer; }
+    .upload-btn { margin-top: 1rem; background-color: #0d6efd; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; }
+    .svg-container { display: flex; justify-content: center; align-items: center; width: 100%; }
+    .tab-buttons { display: flex; border-bottom: 2px solid #dee2e6; width: 100%; max-width: 600px; margin-bottom: 1.5rem; }
+    .tab-button { padding: 15px 0; flex: 1; text-align: center; background-color: transparent; border: none; color: #212529; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+    .tab-button.active { border-bottom: 2px solid #0d6efd; color: #0d6efd; }
+    .url-area, .search-area { width: 100%; display: none; }
+    .url-input, .search-input { width: 100%; padding: 12px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; color: #212529; margin-top: 1rem; }
+</style>
+{% endblock %}
+{% block content %}
+<h2 class="mb-4">Upload Log File</h2>
+
+<div class="tab-buttons">
+    <button class="tab-button active" id="file-tab">FILE</button>
+    <button class="tab-button" id="url-tab">IP</button>
+    <button class="tab-button" id="search-tab">Domain</button>
+</div>
+
+<div class="input-area">
+    <!-- File Upload Form -->
+    <form method="post" enctype="multipart/form-data" id="log-upload-form">
+        {% csrf_token %}
+        <div class="file-area" id="file-section">
+            <div class="file-icon">
+                <img src="{% static 'img/scan.png' %}" alt="Scan" style="width:80px; height:80px;">
+            </div>
+            <input type="file" name="log_file" id="file-input" style="display: none;" required>
+            <button type="button" class="file-button" onclick="document.getElementById('file-input').click()">Choose file</button>
+            <span id="file-name" class="d-block mt-2 text-muted"></span>
+            <button type="submit" class="upload-btn mt-3">Upload</button>
+        </div>
+    </form>
+
+    <!-- IP Check Form -->
+    <form method="POST" id="ip-form">
+        {% csrf_token %}
+        <div class="url-area" id="url-section" style="display: none;">
+            <div class="svg-container">
+                <img src="{% static 'img/internet (1).png' %}" alt="Internet" style="width:80px; height:80px;">
+            </div>
+            <input type="text" name="query" id="ip-input" class="url-input" placeholder="Enter IP to analyze">
+            <input type="hidden" name="query_type" value="ip">
+            <button type="submit" class="btn btn-primary mt-3">Analyze IP</button>
+        </div>
+    </form>
+
+    <!-- Domain Check Form -->
+    <form method="POST" id="domain-form">
+        {% csrf_token %}
+        <div class="search-area" id="search-section" style="display: none;">
+            <div class="svg-container">
+                <img src="{% static 'img/image.png' %}" alt="Image" style="width:80px; height:80px;">
+            </div>
+            <input type="text" name="query" id="domain-input" class="search-input" placeholder="Enter Domain to analyze">
+            <input type="hidden" name="query_type" value="domain">
+            <button type="submit" class="btn btn-primary mt-3">Analyze Domain</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('file-input').addEventListener('change', function(event) {
+        let fileName = event.target.files[0] ? event.target.files[0].name : "No file chosen";
+        document.getElementById('file-name').textContent = fileName;
+    });
+
+    // Tab switching functionality
+    document.getElementById('file-tab').addEventListener('click', function () {
+        document.getElementById('file-section').style.display = 'flex';
+        document.getElementById('url-section').style.display = 'none';
+        document.getElementById('search-section').style.display = 'none';
+        document.getElementById('file-tab').classList.add('active');
+        document.getElementById('url-tab').classList.remove('active');
+        document.getElementById('search-tab').classList.remove('active');
+    });
+
+    document.getElementById('url-tab').addEventListener('click', function () {
+        document.getElementById('file-section').style.display = 'none';
+        document.getElementById('url-section').style.display = 'block';
+        document.getElementById('search-section').style.display = 'none';
+        document.getElementById('file-tab').classList.remove('active');
+        document.getElementById('url-tab').classList.add('active');
+        document.getElementById('search-tab').classList.remove('active');
+    });
+
+    document.getElementById('search-tab').addEventListener('click', function () {
+        document.getElementById('file-section').style.display = 'none';
+        document.getElementById('url-section').style.display = 'none';
+        document.getElementById('search-section').style.display = 'block';
+        document.getElementById('file-tab').classList.remove('active');
+        document.getElementById('url-tab').classList.remove('active');
+        document.getElementById('search-tab').classList.add('active');
+    });
+</script>
+{% endblock %}
