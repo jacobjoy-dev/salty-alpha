@@ -1,11 +1,35 @@
 {% extends 'base.html' %}
-{% block title %}Update Threat - ThreatPro{% endblock %}
+{% load static %}
+{% block title %}Update Threat - ThreatPro SOC{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Update Threat Detection</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a href="{% url 'threat_list' %}" class="btn btn-secondary ms-2">⬅ Back to List</a>
-</form>
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+        <div class="card shadow-lg">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Modify Detection Record</span>
+                <span class="badge badge-info">Registry Update</span>
+            </div>
+            <div class="card-body p-4 p-sm-5">
+                <div class="mb-4">
+                    <h3 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Update Threat Detection</h3>
+                    <p class="text-muted small mb-0">Adjust classification type or reassess threat severity status</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="soc-form-fields mb-4">
+                        {{ form.as_p }}
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">Update Changes</button>
+                        <a href="{% url 'threat_list' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

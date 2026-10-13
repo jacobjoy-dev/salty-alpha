@@ -1,118 +1,71 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Reputation Check - ThreatPro{% endblock %}
-{% block extra_css %}
-<style>
-    .file-icon { width: 100px; height: 100px; opacity: 0.7; }
-    .file-button { background-color: transparent; border: 1px solid #0d6efd; color: #0d6efd; padding: 10px 25px; border-radius: 4px; cursor: pointer; }
-    .svg-container { display: flex; justify-content: center; align-items: center; width: 100%; }
-    .tab-buttons { display: flex; border-bottom: 2px solid #dee2e6; width: 100%; max-width: 600px; margin-bottom: 1.5rem; }
-    .tab-button { padding: 15px 0; flex: 1; text-align: center; background-color: transparent; border: none; color: #212529; cursor: pointer; font-weight: bold; transition: all 0.3s; }
-    .tab-button.active { border-bottom: 2px solid #0d6efd; color: #0d6efd; }
-    .url-area, .search-area { width: 100%; display: none; }
-    .url-input, .search-input { width: 100%; padding: 12px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; color: #212529; margin-top: 1rem; }
-</style>
-{% endblock %}
+{% block title %}Reputation Check - ThreatPro SOC{% endblock %}
+
 {% block content %}
-<div class="main-content" style="background-image: url('{% static 'img/detection_bg.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh;">
-    <div class="logo text-center mb-4">
-        <span class="logo-text" style="color:white;">THREAT DETECTION TOOL</span>
-    </div>
-
-    <div class="description text-center mb-4" style="color:white; max-width: 700px; margin: 0 auto 2rem;">
-        Analyse suspicious files, domains, IPs and URLs to detect malware and other breaches, automatically share
-        them with the security community.
-    </div>
-
-    <div class="tab-buttons" style="color:white; justify-content: center;">
-        <button class="tab-button active" id="file-tab" style="color:white;">FILE</button>
-        <button class="tab-button" id="url-tab" style="color:white;">Domain</button>
-        <button class="tab-button" id="search-tab" style="color:white;">IP</button>
-    </div>
-    
-    <div class="input-area">
-        <!-- File Upload Section -->
-        <div class="file-area" id="file-section">
-            <div class="file-icon">
-                <img src="{% static 'img/scan.png' %}" alt="Scan" style="width:80px; height:80px;">
-            </div>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="log_file" id="file-input" style="display: none;" onchange="updateButton()">
-                <button type="button" class="file-button" id="choose-file-btn" onclick="document.getElementById('file-input').click()" style="color:white;">Choose File</button>
-            </form>
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-xl-8">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Threat Intelligence Lookup</h2>
+            <p class="text-muted small mb-0">Query IP addresses with AbuseIPDB or domains with VirusTotal for malicious scores and reputation</p>
         </div>
-    
-        <!-- Domain Analysis Section -->
-        <div class="url-area" id="url-section" style="display: none;">
-            <div class="svg-container">   
-                <img src="{% static 'img/internet (1).png' %}" alt="Internet" style="width:80px; height:80px;">
+
+        <!-- Search Box Card -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Reputation Intelligence Scanner</span>
+                <span class="badge badge-info">AbuseIPDB &bull; VirusTotal</span>
             </div>
-            <form method="POST">
-                {% csrf_token %}
-                <input type="text" name="query" class="url-input" placeholder="Enter Domain to analyze" onkeypress="submitOnEnter(event)">
-            </form>
+            <div class="card-body p-4">
+                <form method="POST" id="reputation-search-form">
+                    {% csrf_token %}
+                    <label class="form-label mb-2">Target IP Address or Domain FQDN</label>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text" style="background: var(--bg-surface-elevated); border-color: var(--border-subtle); color: var(--accent-cyan);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" x2="16.65" y1="21" y2="16.65"/>
+                            </svg>
+                        </span>
+                        <input type="text" name="query" class="form-control" placeholder="e.g. 8.8.8.8, 192.168.1.1 or example.com" required autofocus>
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                            Check Reputation
+                        </button>
+                    </div>
+                    <div class="form-text text-muted small mt-2">
+                        Automatic format detection: IPv4/IPv6 routed to AbuseIPDB API; Domain names routed to VirusTotal API.
+                    </div>
+                </form>
+            </div>
         </div>
-    
-        <!-- IP Analysis Section -->
-        <div class="search-area" id="search-section" style="display: none;">    
-            <div class="svg-container">    
-                <img src="{% static 'img/image.png' %}" alt="Image" style="width:80px; height:80px;">
+
+        <!-- Or Upload Log File Box -->
+        <div class="card">
+            <div class="card-header">
+                <span>Alternative: Batch Scan Through Access Logs</span>
             </div>
-            <form method="POST">
-                {% csrf_token %}
-                <input type="text" name="query" class="search-input" placeholder="Enter IP to analyze" onkeypress="submitOnEnter(event)">
-            </form>
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data" class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    {% csrf_token %}
+                    <div>
+                        <h6 class="fw-semibold mb-1" style="color: var(--text-primary);">Upload Server Access Log</h6>
+                        <p class="text-muted small mb-0">Scan all client IPs extracted from an access log file simultaneously</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input type="file" name="log_file" id="rep-log-input" style="display: none;" onchange="this.form.submit()">
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('rep-log-input').click()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" x2="12" y1="3" y2="15"/>
+                            </svg>
+                            Choose Log &amp; Analyze
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    function submitOnEnter(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            event.target.form.submit();
-        }
-    }
-    
-    function updateButton() {
-        let fileInput = document.getElementById("file-input");
-        let chooseButton = document.getElementById("choose-file-btn");
-        if (fileInput.files.length > 0) {
-            chooseButton.innerHTML = "Upload & Scan";
-            chooseButton.type = "submit";
-            chooseButton.onclick = null;
-        }
-    }
-
-    // Tab switching functionality
-    document.getElementById('file-tab').addEventListener('click', function () {
-        document.getElementById('file-section').style.display = 'flex';
-        document.getElementById('url-section').style.display = 'none';
-        document.getElementById('search-section').style.display = 'none';
-        document.getElementById('file-tab').classList.add('active');
-        document.getElementById('url-tab').classList.remove('active');
-        document.getElementById('search-tab').classList.remove('active');
-    });
-
-    document.getElementById('url-tab').addEventListener('click', function () {
-        document.getElementById('file-section').style.display = 'none';
-        document.getElementById('url-section').style.display = 'block';
-        document.getElementById('search-section').style.display = 'none';
-        document.getElementById('file-tab').classList.remove('active');
-        document.getElementById('url-tab').classList.add('active');
-        document.getElementById('search-tab').classList.remove('active');
-    });
-
-    document.getElementById('search-tab').addEventListener('click', function () {
-        document.getElementById('file-section').style.display = 'none';
-        document.getElementById('url-section').style.display = 'none';
-        document.getElementById('search-section').style.display = 'block';
-        document.getElementById('file-tab').classList.remove('active');
-        document.getElementById('url-tab').classList.remove('active');
-        document.getElementById('search-tab').classList.add('active');
-    });
-</script>
 {% endblock %}
