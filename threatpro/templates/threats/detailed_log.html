@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
         <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Detailed Log Records</h2>
-        <p class="text-muted small mb-0">Tabular packet request breakdown with instant client-side keyword filtering</p>
+        <p class="small mb-0" style="color: var(--text-secondary);">Tabular packet request breakdown with instant client-side keyword filtering</p>
     </div>
     <div class="d-flex gap-2">
         <a href="{% url 'upload_log_file' %}" class="btn btn-outline-primary btn-sm">
@@ -56,7 +56,7 @@
                                 <td>
                                     <code>{{ log.ip }}</code>
                                 </td>
-                                <td class="text-muted small">{{ log.timestamp }}</td>
+                                <td class="small" style="color: var(--text-secondary);">{{ log.timestamp }}</td>
                                 <td>
                                     <span class="badge {% if log.method == 'GET' %}badge-info{% elif log.method == 'POST' %}badge-medium{% elif log.method == 'DELETE' %}badge-high{% else %}badge-low{% endif %}">
                                         {{ log.method }}
@@ -85,18 +85,18 @@
                 </table>
             </div>
             
-            <div class="p-3 border-top d-flex justify-content-between align-items-center text-muted small" style="border-color: var(--border-subtle) !important;">
+            <div class="p-3 border-top d-flex justify-content-between align-items-center small" style="color: var(--text-secondary); border-color: var(--border-subtle) !important;">
                 <span id="rowCountDisplay">Showing {{ log_data|length }} parsed records</span>
                 <span>Horizontally scrollable on compact displays</span>
             </div>
         {% else %}
             <div class="text-center py-5">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted mb-2">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-secondary);">
                     <circle cx="12" cy="12" r="10"/>
                     <line x1="12" x2="12" y1="8" y2="12"/>
                     <line x1="12" x2="12.01" y1="16" y2="16"/>
                 </svg>
-                <p class="text-muted mb-3">No log records parsed or available.</p>
+                <p class="small mb-3" style="color: var(--text-secondary);">No log records parsed or available.</p>
                 <a href="{% url 'upload_log_file' %}" class="btn btn-primary btn-sm">Upload Log File</a>
             </div>
         {% endif %}

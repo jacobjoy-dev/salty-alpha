@@ -19,7 +19,7 @@
   /* Typography / Text */
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
+  --text-muted: #a8b3c0;
   --text-inverse: #0b1220;
 
   /* Accent & Brand Colors */
@@ -154,7 +154,7 @@ body {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 700;
   padding: 0.65rem 0.75rem 0.25rem;
 }
@@ -171,7 +171,6 @@ body {
   font-weight: 500;
   transition: all var(--transition-fast);
   position: relative;
-  opacity: 0.85;
 }
 
 .soc-nav-link:hover {
@@ -203,14 +202,13 @@ body {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  opacity: 0.85;
 }
 
 .soc-sidebar-footer {
   padding: 0.85rem 1rem;
   border-top: 1px solid var(--border-subtle);
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;

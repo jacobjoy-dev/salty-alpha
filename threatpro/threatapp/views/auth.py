@@ -1,9 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 
-from ..forms import RegisterForm
+from ..forms import CustomAuthenticationForm, RegisterForm
 
 
 def register_view(request):
@@ -20,7 +19,7 @@ def register_view(request):
 
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -34,7 +33,7 @@ def login_view(request):
                 messages.error(request, "Invalid username or password")
         else:
             messages.error(request, "Invalid username or password")
-    form = AuthenticationForm()
+    form = CustomAuthenticationForm()
     return render(request, "accounts/login.html", {"form": form})
 
 

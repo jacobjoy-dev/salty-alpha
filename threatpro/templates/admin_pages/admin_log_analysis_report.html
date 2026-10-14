@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
-{% block title %}Admin Log Analysis - ThreatPro{% endblock %}
+{% block title %}Admin Log Analysis - ThreatPro SOC{% endblock %}
 {% block content %}
-<h2 class="mb-4">Admin Log Analysis Report</h2>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-sm py-1 px-2" style="font-size: 0.75rem;">
+                &larr; Admin Portal
+            </a>
+            <h2 class="fw-bold mb-0" style="color: var(--text-primary); letter-spacing: -0.02em;">Admin Log Analysis Report</h2>
+        </div>
+        <p class="small mb-0" style="color: var(--text-secondary);">Detailed breakdown of ingested log entries and detected threat indicators</p>
+    </div>
+</div>
 
-<h3 class="mt-4">Log Entries</h3>
+<h3 class="mt-4 mb-3" style="color: var(--text-primary);">Log Entries</h3>
 <div class="table-responsive">
-    <table class="table table-striped">
-        <thead class="table-dark">
+    <table class="table align-middle mb-0">
+        <thead>
             <tr>
                 <th>IP</th><th>Timestamp</th><th>Method</th><th>URL</th><th>Status</th>
             </tr>
@@ -15,9 +25,9 @@
             {% for log in log_data %}
             <tr>
                 <td>{{ log.ip }}</td>
-                <td>{{ log.timestamp }}</td>
+                <td class="small" style="color: var(--text-secondary);">{{ log.timestamp }}</td>
                 <td>{{ log.method }}</td>
-                <td>{{ log.url }}</td>
+                <td><span style="color: var(--text-primary);">{{ log.url }}</span></td>
                 <td>{{ log.status }}</td>
             </tr>
             {% endfor %}
@@ -25,10 +35,10 @@
     </table>
 </div>
 
-<h3 class="mt-4">Detected Threats</h3>
+<h3 class="mt-4 mb-3" style="color: var(--text-primary);">Detected Threats</h3>
 <div class="table-responsive">
-    <table class="table table-striped">
-        <thead class="table-dark">
+    <table class="table align-middle mb-0">
+        <thead>
             <tr>
                 <th>Type</th><th>Severity</th><th>Detected At</th>
             </tr>
@@ -38,14 +48,15 @@
             <tr>
                 <td>{{ threat.threat_type }}</td>
                 <td>
-                    <span class="badge
-                        {% if threat.severity == 'High' %} bg-danger
-                        {% elif threat.severity == 'Medium' %} bg-warning text-dark
-                        {% else %} bg-success{% endif %}">
-                        {{ threat.severity }}
-                    </span>
+                    {% if threat.severity == 'High' %}
+                        <span class="badge badge-high">{{ threat.severity }}</span>
+                    {% elif threat.severity == 'Medium' %}
+                        <span class="badge badge-medium">{{ threat.severity }}</span>
+                    {% else %}
+                        <span class="badge badge-low">{{ threat.severity }}</span>
+                    {% endif %}
                 </td>
-                <td>{{ threat.detected_at }}</td>
+                <td class="small" style="color: var(--text-secondary);">{{ threat.detected_at }}</td>
             </tr>
             {% endfor %}
         </tbody>

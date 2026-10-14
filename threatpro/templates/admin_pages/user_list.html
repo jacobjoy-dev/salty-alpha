@@ -11,7 +11,7 @@
             </a>
             <h2 class="fw-bold mb-0" style="color: var(--text-primary); letter-spacing: -0.02em;">Analyst &amp; User Registry</h2>
         </div>
-        <p class="text-muted small mb-0">Authorized accounts, privilege tiers, and security operator profiles</p>
+        <p class="small mb-0" style="color: var(--text-secondary);">Authorized accounts, privilege tiers, and security operator profiles</p>
     </div>
     <div>
         <span class="badge badge-info">Registered Accounts: {{ users|length }}</span>
@@ -21,7 +21,7 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Active User Accounts</span>
-        <span class="text-muted small">Total: {{ users|length }} analysts</span>
+        <span class="small" style="color: var(--text-secondary);">Total: {{ users|length }} analysts</span>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -46,8 +46,8 @@
                                     <span class="fw-semibold" style="color: var(--text-primary);">{{ user.username }}</span>
                                 </div>
                             </td>
-                            <td class="text-muted small">{{ user.email|default:"Not specified" }}</td>
-                            <td class="text-muted small">{{ user.phone|default:"-" }}</td>
+                            <td class="small" style="color: var(--text-secondary);">{{ user.email|default:"Not specified" }}</td>
+                            <td class="small" style="color: var(--text-secondary);">{{ user.phone|default:"-" }}</td>
                             <td>
                                 {% if user.is_superuser %}
                                     <span class="badge badge-high">SUPERUSER</span>
@@ -69,7 +69,9 @@
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="5" class="text-center py-4 text-muted small">No users found.</td>
+                            <td colspan="5" class="text-center py-4 small" style="color: var(--text-secondary);">
+    No users found.
+</td>
                         </tr>
                     {% endfor %}
                 </tbody>

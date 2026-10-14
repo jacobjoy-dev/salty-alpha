@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
         <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Security Operations Dashboard</h2>
-        <p class="text-muted small mb-0">Real-time threat monitoring and incident activity for analyst <strong>{{ request.user.username }}</strong></p>
+        <p class="small mb-0" style="color: var(--text-secondary);">Real-time threat monitoring and incident activity for analyst <strong>{{ request.user.username }}</strong></p>
     </div>
     <div class="d-flex gap-2">
         <a href="{% url 'upload_log_file' %}" class="btn btn-primary">
@@ -34,9 +34,9 @@
         <div class="card h-100 p-3">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Total Logs</span>
+                    <span class="small text-uppercase fw-semibold" style="color: var(--text-secondary); letter-spacing: 0.05em;">Total Logs</span>
                     <h3 class="fw-bold mt-2 mb-0" style="color: var(--text-primary);">{{ logs|length }}</h3>
-                    <small class="text-muted">Uploaded files</small>
+                    <small style="color: var(--text-secondary);">Uploaded files</small>
                 </div>
                 <div class="p-2 rounded" style="background: rgba(56, 189, 248, 0.12); color: var(--accent-blue);">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -52,9 +52,9 @@
         <div class="card h-100 p-3">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Threats Detected</span>
+                    <span class="small text-uppercase fw-semibold" style="color: var(--text-secondary); letter-spacing: 0.05em;">Threats Detected</span>
                     <h3 class="fw-bold mt-2 mb-0" style="color: var(--accent-cyan);">{{ threats|length }}</h3>
-                    <small class="text-muted">Signature matches</small>
+                    <small style="color: var(--text-secondary);">Signature matches</small>
                 </div>
                 <div class="p-2 rounded" style="background: rgba(6, 182, 212, 0.12); color: var(--accent-cyan);">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -71,9 +71,9 @@
         <div class="card h-100 p-3">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">High Severity</span>
+                    <span class="small text-uppercase fw-semibold" style="color: var(--text-secondary); letter-spacing: 0.05em;">High Severity</span>
                     <h3 class="fw-bold mt-2 mb-0" style="color: var(--severity-high);">{{ high_severity_count }}</h3>
-                    <small class="text-muted">Critical attention</small>
+                    <small style="color: var(--text-secondary);">Critical attention</small>
                 </div>
                 <div class="p-2 rounded" style="background: rgba(239, 68, 68, 0.15); color: var(--severity-high);">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -90,9 +90,9 @@
         <div class="card h-100 p-3">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Open Incidents</span>
+                    <span class="small text-uppercase fw-semibold" style="color: var(--text-secondary); letter-spacing: 0.05em;">Open Incidents</span>
                     <h3 class="fw-bold mt-2 mb-0" style="color: var(--severity-medium);">{{ incidents|length }}</h3>
-                    <small class="text-muted">Tracked reports</small>
+                    <small style="color: var(--text-secondary);">Tracked reports</small>
                 </div>
                 <div class="p-2 rounded" style="background: rgba(245, 158, 11, 0.12); color: var(--severity-medium);">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -123,7 +123,7 @@
                             <circle cx="12" cy="12" r="10"/>
                             <path d="m4.93 4.93 14.14 14.14"/>
                         </svg>
-                        <p class="text-muted mb-0 small">No severity distribution data available</p>
+                        <p class="small mb-0" style="color: var(--text-secondary);">No severity distribution data available</p>
                         <a href="{% url 'upload_log_file' %}" class="btn btn-outline-primary btn-sm mt-2">Upload Logs to Analyze</a>
                     </div>
                 {% endif %}
@@ -153,21 +153,21 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-muted">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="" style="color: var(--text-secondary);">
                                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                                 <polyline points="14 2 14 8 20 8"/>
                                             </svg>
                                             <span class="fw-medium text-break">{{ log.log_file.name }}</span>
                                         </div>
                                     </td>
-                                    <td class="text-muted small">{{ log.uploaded_at|date:"M d, Y H:i" }}</td>
+                                    <td class="small" style="color: var(--text-secondary);">{{ log.uploaded_at|date:"M d, Y H:i" }}</td>
                                     <td class="text-end">
                                         <a href="{% url 'threat_frequency_chart' log.id %}" class="btn btn-secondary btn-sm py-1 px-2">Chart</a>
                                     </td>
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted small">
+<td colspan="3" class="text-center py-4 small" style="color: var(--text-secondary);">
                                         No log files uploaded yet. Click "Upload New Log" to begin threat scanning.
                                     </td>
                                 </tr>
@@ -203,9 +203,9 @@
                             <td class="fw-semibold">
                                 <span style="color: var(--text-primary);">{{ threat.threat_type }}</span>
                             </td>
-                            <td>
-                                <code>{{ threat.ip_address|default:"Log Pattern" }}</code>
-                            </td>
+<td>
+    <code style="color: var(--text-secondary);">{{ threat.ip_address|default:"Log Pattern" }}</code>
+</td>
                             <td>
                                 {% if threat.severity == 'High' %}
                                     <span class="badge badge-high">High</span>
@@ -215,13 +215,13 @@
                                     <span class="badge badge-low">Low</span>
                                 {% endif %}
                             </td>
-                            <td class="text-muted small">{{ threat.detected_at|date:"M d, Y H:i" }}</td>
+                            <td class="small" style="color: var(--text-secondary);">{{ threat.detected_at|date:"M d, Y H:i" }}</td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="4" class="text-center py-4 text-muted small">
-                                <span class="text-success fw-medium">&check; No suspicious activity detected. All systems nominal.</span>
-                            </td>
+<td colspan="4" class="text-center py-4 small" style="color: var(--text-secondary);">
+    <span class="text-success fw-medium">&check; No suspicious activity detected. All systems nominal.</span>
+</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -259,13 +259,13 @@
                                     <span class="badge badge-high">Open</span>
                                 {% endif %}
                             </td>
-                            <td class="text-muted small">{{ incident.reported_at|date:"M d, Y H:i"|default:"Recently" }}</td>
+                            <td class="small" style="color: var(--text-secondary);">{{ incident.reported_at|date:"M d, Y H:i"|default:"Recently" }}</td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="3" class="text-center py-4 text-muted small">
-                                No active incidents reported.
-                            </td>
+<td colspan="3" class="text-center py-4 small" style="color: var(--text-secondary);">
+    No active incidents reported.
+</td>
                         </tr>
                     {% endfor %}
                 </tbody>
