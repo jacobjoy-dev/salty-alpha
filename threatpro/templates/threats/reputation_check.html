@@ -8,7 +8,7 @@
         <!-- Header -->
         <div class="text-center mb-4">
             <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Threat Intelligence Lookup</h2>
-            <p class="text-muted small mb-0">Query IP addresses with AbuseIPDB or domains with VirusTotal for malicious scores and reputation</p>
+            <p class="small mb-0" style="color: var(--text-secondary);">Query IP addresses with AbuseIPDB or domains with VirusTotal for malicious scores and reputation</p>
         </div>
 
         <!-- Search Box Card -->
@@ -33,7 +33,7 @@
                             Check Reputation
                         </button>
                     </div>
-                    <div class="form-text text-muted small mt-2">
+                    <div class="form-text small mt-2" style="color: var(--text-secondary);">
                         Automatic format detection: IPv4/IPv6 routed to AbuseIPDB API; Domain names routed to VirusTotal API.
                     </div>
                 </form>
@@ -50,7 +50,7 @@
                     {% csrf_token %}
                     <div>
                         <h6 class="fw-semibold mb-1" style="color: var(--text-primary);">Upload Server Access Log</h6>
-                        <p class="text-muted small mb-0">Scan all client IPs extracted from an access log file simultaneously</p>
+                        <p class="small mb-0" style="color: var(--text-secondary);">Scan all client IPs extracted from an access log file simultaneously</p>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <input type="file" name="log_file" id="rep-log-input" style="display: none;" onchange="this.form.submit()">

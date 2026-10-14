@@ -25,7 +25,7 @@ def analyze_logs(log_entry):
     detected_threats = []
     ip_tracker = defaultdict(int)
 
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         for line in file:
             ip_match = re.search(r"(\b(?:\d{1,3}\.){3}\d{1,3}\b)", line)
             ip_address = ip_match.group(0) if ip_match else None

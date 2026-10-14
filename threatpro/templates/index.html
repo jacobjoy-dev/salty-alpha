@@ -1,148 +1,243 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Threat Hunting Toolkit{% endblock %}
+
 {% block extra_css %}
-<link href="{% static 'css/theme.min.css' %}" rel="stylesheet" />
-<link href="{% static 'css/user.min.css' %}" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, var(--bg-surface-elevated) 0%, var(--bg-surface) 100%);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-subtle);
+        padding: 4rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2306b6d4' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4v-4h-2v-4h-4v2h-4v-2h-4v4h-2v4zm0-4h.01M4 34v-4h-.01M4 4h.01M36 4h4v-.01M36 20h4v-.01M4 16v-4h-.01M4 28v-4h-.01M4 20h-.01M20 4h-.01M4 4v-.01M32 36v-4h4v4h-4zM36 4h-.01M4 8v-.01M4 36v-.01M40 4v-.01M40 12v-4h4v4h-4zM36 8v-.01M8 4v-.01M28 4v-.01M4 12v-.01M4 32v-.01M4 24v-.01M4 20v-.01M4 16v-.01M36 12v-4h4v4h-4zM4 8v-.01M4 4v-.01M4 36v-.01M12 4h-.01M16 4h-.01M8 36v-.01M4 28v-.01M4 24v-.01M4 20v-.01M4 16v-.01M4 4v-.01'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.5;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    .feature-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        height: 100%;
+        transition: all var(--transition-fast);
+    }
+    .feature-card:hover {
+        border-color: var(--accent-cyan);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(6, 182, 212, 0.1);
+    }
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-md);
+        background: var(--accent-cyan-subtle);
+        color: var(--accent-cyan);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    .stat-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+    }
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--accent-cyan);
+        line-height: 1;
+    }
+    .stat-label {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+</style>
 {% endblock %}
+
 {% block content %}
-<main class="main" id="top">
-    <section class="text-center overflow-hidden py-5" style="background-image:url({% static 'assets/images/bgimg.jpeg' %}); background-size: cover; background-position: center; color: white;">
-        <div class="container">
-            <div class="d-flex flex-center vh-50">
-                <div class="header-text">
-                    <h1 class="display-3 fs-5 fs-md-7">THREAT DETECTION</h1>
-                    <p class="text-uppercase text-400 ls-3 mt-2">System with AI</p>
-                    <a class="btn btn-sm btn-outline-light hvr-sweep-top mt-5 px-4" href="{% url 'register' %}">Get Started Now</a>
-                </div>
+<!-- Hero Section -->
+<div class="hero-section mb-5">
+    <div class="container">
+        <div class="hero-content text-center">
+            <div class="d-flex justify-content-center mb-3">
+                <span class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                </span>
+            </div>
+            <h1 class="display-4 fw-bold mb-3" style="color: var(--text-primary); letter-spacing: -0.03em;">Threat Hunting Toolkit</h1>
+            <p class="lead" style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">A modern Security Operations Center platform for log analysis, threat detection, and reputation intelligence. Built for analysts, by analysts.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <line x1="19" x2="19" y1="8" y2="14"/>
+                    </svg>
+                    Get Started Free
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg px-4">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <polyline points="10 17 15 12 10 7"/>
+                    </svg>
+                    Sign In
+                </a>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <section class="py-5" id="about-us">
-        <div class="container">
-            <div class="row mb-4 text-center">
-                <div class="col">
-                    <h2 class="fs-sm-5 mb-2">about us</h2>
-                    <p class="text-uppercase fs--1 text-black ls-1 mb-0">Our System, in the simplest terms</p>
-                    <hr class="hr-short border-black" />
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-4 text-md-end">
-                    <h5 class="ls-2 mb-3">We're Innovative</h5>
-                    <p class="mb-0">Our system is designed with cutting-edge technology to detect and prevent cyber threats efficiently. Ensuring robust security for a safer digital space.</p>
-                </div>
-                <div class="col-md-4 px-lg-4 my-4 my-md-0">
-                    <img class="rounded w-100 w-sm-75 w-md-100" src="{% static 'img/about.jpg' %}" alt="" />
-                </div>
-                <div class="col-md-4 text-md-start">
-                    <h5 class="ls-2 mb-3">We're Dedicated</h5>
-                    <p class="mb-0">Our team works tirelessly to create a secure digital environment, ensuring continuous protection against evolving cyber threats.</p>
-                </div>
-            </div>
+<!-- Key Statistics -->
+<div class="row g-4 mb-5">
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card text-center">
+            <div class="stat-value">13</div>
+            <div class="stat-label">Threat Patterns</div>
+            <small style="color: var(--text-secondary);">SQLi, XSS, Brute Force, DDoS & more</small>
         </div>
-    </section>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card text-center">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Intelligence APIs</div>
+            <small style="color: var(--text-secondary);">AbuseIPDB + VirusTotal</small>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card text-center">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Severity Levels</div>
+            <small style="color: var(--text-secondary);">Low • Medium • High</small>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card text-center">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Log Formats</div>
+            <small style="color: var(--text-secondary);">Apache, Nginx, Custom CSV</small>
+        </div>
+    </div>
+</div>
 
-    <section class="py-5 text-center" id="services">
-        <div class="container">
-            <div class="row mb-4 text-center">
-                <div class="col">
-                    <h2 class="fs-md-5 mb-2">our services</h2>
-                    <p class="fs--1 text-uppercase text-black ls-1 mb-0">We specialize in IP Analysis, Domain Analysis, Log Analysis, and URL Analysis, offering cutting-edge solutions to enhance cybersecurity and threat detection.</p>
-                    <hr class="hr-short bg-black opacity-100" />
-                </div>
+<!-- Features Grid -->
+<div class="row g-4 mb-5">
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" x2="16.65" y1="21" y2="16.65"/>
+                </svg>
             </div>
-            <div class="row text-center text-md-start">
-                <div class="col-sm-6 col-lg-4 mb-3">
-                    <div class="service-item p-3 p-md-4 h-100">
-                        <img class="service-icon" src="{% static 'img/line-icons/icons/ip.png' %}" alt="" />
-                        <h5 class="fw-normal ls-3 mb-2">IP Analysis</h5>
-                        <p class="fw-normal">Our team conducts in-depth IP analysis, identifying suspicious activities, tracking malicious sources, and preventing cyber threats.</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 mb-3">
-                    <div class="service-item p-3 p-md-4 h-100">
-                        <img class="service-icon" src="{% static 'img/line-icons/icons/domain.png' %}" alt="" />
-                        <h5 class="fw-normal ls-3 mb-2">Domain Analysis</h5>
-                        <p class="fw-normal">We analyze domain reputations, detect phishing domains, and help secure businesses from potential cyber attacks.</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 mb-3">
-                    <div class="service-item p-3 p-md-4 h-100">
-                        <img class="service-icon" src="{% static 'img/line-icons/icons/log.png' %}" alt="" />
-                        <h5 class="fw-normal ls-3 mb-2">Log Analysis</h5>
-                        <p class="fw-normal">Our automated log analysis system processes security logs efficiently, detecting anomalies and improving incident response times.</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4 mb-3">
-                    <div class="service-item p-3 p-md-4 h-100">
-                        <img class="service-icon" src="{% static 'img/line-icons/icons/url.png' %}" alt="" />
-                        <h5 class="fw-normal ls-3 mb-2">URL Analysis</h5>
-                        <p class="fw-normal">We provide advanced URL analysis solutions, identifying malicious links, preventing phishing attacks, and ensuring safe web navigation.</p>
-                    </div>
-                </div>
-            </div>
+            <h5 class="fw-semibold mb-2">IP Reputation</h5>
+            <p class="small mb-0" style="color: var(--text-secondary);">Check IP addresses against AbuseIPDB for abuse confidence scores, geolocation, and historical reports.</small>small>
         </div>
-    </section>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                    <line x1="12" x2="12" y1="9" y2="13"/>
+                    <line x1="12" x2="12.01" y1="17" y2="17"/>
+                </svg>
+            </div>
+            <h5 class="fw-semibold mb-2">Domain Analysis</h5>
+            <p class="small mb-0" style="color: var(--text-secondary);">Analyze domain reputations via VirusTotal. Detect phishing, malware hosting, and suspicious registrations.</small>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                </svg>
+            </div>
+            <h5 class="fw-semibold mb-2">Log Analysis</h5>
+            <p class="small mb-0" style="color: var(--text-secondary);">Upload Apache/Nginx logs. 13 threat patterns detect SQLi, XSS, brute force, DDoS, traversal & more.</small>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+            </div>
+            <h5 class="fw-semibold mb-2">Incident Tracking</h5>
+            <p class="small mb-0" style="color: var(--text-secondary);">Report and track security incidents through Open → Investigating → Resolved workflow.</small>
+        </div>
+    </div>
+</div>
 
-    <section class="py-6 text-center" style="background-image:url({% static 'img/backgrounds/do.jpg' %}); background-size: cover; background-position: center; color: white;">
-        <div class="container">
-            <h2 class="fs-sm-5 text-white mb-1 mb-lg-2">do you know</h2>
-            <p class="fs--1 text-uppercase text-white ls-1 mb-0">Some Cool Facts About Threat Detection</p>
-            <hr class="hr-short bg-white" />
-            <div class="row justify-content-center">
-                <div class="col-md-4 mb-4 mb-lg-0">
-                    <img class="fun-fact-icon mb-2" src="{% static 'img/line-icons/icons/download.svg' %}" alt="" />
-                    <h3 class="text-white font-base fw-normal mb-1">7781914</h3>
-                    <p class="text-uppercase text-white fw-semi-bold ls-2 mb-0">Cyber threats detected and neutralized worldwide.</p>
-                </div>
-                <div class="col-md-4 mb-4 mb-lg-0">
-                    <img class="fun-fact-icon mb-2" src="{% static 'img/line-icons/icons/clock.svg' %}" alt="" />
-                    <h3 class="text-white font-base fw-normal mb-1">370704</h3>
-                    <p class="text-uppercase text-white fw-semi-bold ls-2 mb-0">Minutes of continuous monitoring to keep systems secure.</p>
-                </div>
-                <div class="col-md-4">
-                    <img class="fun-fact-icon mb-2" src="{% static 'img/line-icons/icons/battery.svg' %}" alt="" />
-                    <h3 class="text-white font-base fw-normal mb-1">12599</h3>
-                    <p class="text-uppercase text-white fw-semi-bold ls-2 mb-0">Security incidents analyzed to strengthen defenses.</p>
+<!-- Call to Action -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card" style="background: linear-gradient(135deg, var(--bg-surface-elevated) 0%, var(--bg-surface) 100%); border-color: var(--accent-cyan);">
+            <div class="card-body text-center py-5">
+                <h3 class="fw-bold mb-3">Ready to Secure Your Infrastructure?</h3>
+                <p class="mb-4" style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Join security analysts worldwide using Threat Hunting Toolkit for proactive threat detection and incident response.</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-5">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <line x1="19" x2="19" y1="8" y2="14"/>
+                        </svg>
+                        Create Free Account
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg px-5">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                            <polyline points="10 17 15 12 10 7"/>
+                        </svg>
+                        Sign In to Dashboard
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <section class="py-5" id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col text-center mb-4">
-                    <h2 class="fs-md-5">Drop Us A Line</h2>
-                    <p class="fs--1 text-uppercase text-black ls-1 mb-0">We are happy to hear from you anytime</p>
-                    <hr class="hr-short border-black" />
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <h5 class="mb-3">Feel free to drop us a line!</h5>
-                    <form method="POST" role="form" class="zform text-left">
-                        {% csrf_token %}
-                        <div class="form-group mb-3">
-                            {{ form.name }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form.email }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form.phone }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form.message }}
-                        </div>
-                        <button type="submit" class="btn btn-dark hvr-sweep-top">Give us a shot</button>
-                    </form>
-                </div>
-            </div>
+<!-- Technology Stack -->
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h4 class="fw-semibold small text-uppercase" style="color: var(--text-secondary); letter-spacing: 0.1em;">Built With</h4>
+    </div>
+    <div class="col-12">
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <span class="badge badge-info px-3 py-2">Django 5.1</span>
+            <span class="badge badge-info px-3 py-2">Python 3.12+</span>
+            <span class="badge badge-info px-3 py-2">SQLite / PostgreSQL</span>
+            <span class="badge badge-info px-3 py-2">Bootstrap 5</span>
+            <span class="badge badge-info px-3 py-2">Chart.js</span>
+            <span class="badge badge-info px-3 py-2">Matplotlib</span>
+            <span class="badge badge-info px-3 py-2">AbuseIPDB API</span>
+            <span class="badge badge-info px-3 py-2">VirusTotal API</span>
         </div>
-    </section>
-</main>
+    </div>
+</div>
 {% endblock %}

@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
         <h2 class="fw-bold mb-1" style="color: var(--text-primary); letter-spacing: -0.02em;">Threat Detection Registry</h2>
-        <p class="text-muted small mb-0">Browse, edit, and maintain logged attack indicators and classifications</p>
+        <p class="small mb-0" style="color: var(--text-secondary);">Browse, edit, and maintain logged attack indicators and classifications</p>
     </div>
     <div>
         <a href="{% url 'add_threat' %}" class="btn btn-primary">
@@ -22,7 +22,7 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Logged Threat Signatures</span>
-        <span class="text-muted small">Total: {{ threats|length }} records</span>
+        <span class="small" style="color: var(--text-secondary);">Total: {{ threats|length }} records</span>
     </div>
     <div class="card-body p-0">
         {% if threats %}
@@ -59,7 +59,7 @@
                                         <span class="badge badge-low">Low</span>
                                     {% endif %}
                                 </td>
-                                <td class="text-muted small">{{ threat.detected_at|date:"M d, Y H:i" }}</td>
+                                <td class="small" style="color: var(--text-secondary);">{{ threat.detected_at|date:"M d, Y H:i" }}</td>
                                 <td class="text-end">
                                     <div class="d-inline-flex gap-1">
                                         <a href="{% url 'update_threat' threat.id %}" class="btn btn-secondary btn-sm py-1 px-2" title="Edit Threat">
@@ -84,12 +84,12 @@
             </div>
         {% else %}
             <div class="text-center py-5">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted mb-2">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-secondary);">
                     <circle cx="12" cy="12" r="10"/>
                     <line x1="12" x2="12" y1="8" y2="12"/>
                     <line x1="12" x2="12.01" y1="16" y2="16"/>
                 </svg>
-                <p class="text-muted mb-3">No threats recorded in database.</p>
+                <p class="small mb-3" style="color: var(--text-secondary);">No threats recorded in database.</p>
                 <a href="{% url 'add_threat' %}" class="btn btn-primary btn-sm">+ Add First Threat</a>
             </div>
         {% endif %}

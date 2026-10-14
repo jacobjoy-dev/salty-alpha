@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Server Error - ThreatPro{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin-top: 4rem;">
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-danger" style="opacity: 0.5;">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" x2="12" y1="8" y2="12"/>
+                <line x1="12" x2="12.01" y1="16" y2="16"/>
+            </svg>
+        </div>
+        <h1 class="display-3 fw-bold mb-3" style="color: var(--text-primary);">500</h1>
+        <h2 class="fw-semibold mb-3" style="color: var(--text-secondary);">Internal Server Error</h2>
+        <p class="text-muted mb-4" style="max-width: 400px; margin: 0 auto;">
+            Something went wrong on our end. Our security team has been alerted and is investigating the anomaly.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'index' %}" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 19l-7-7 7-7"/>
+                    <path d="M3 12h18"/>
+                </svg>
+                Back to Home
+            </a>
+            <button onclick="location.reload()" class="btn btn-outline-danger">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 4v6h-6"/>
+                    <path d="M1 20v-6h6"/>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+                Retry
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

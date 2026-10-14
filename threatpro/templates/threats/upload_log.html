@@ -13,7 +13,7 @@
             <div class="card-body p-4 p-sm-5">
                 <div class="text-center mb-4">
                     <h4 class="fw-bold mb-1" style="color: var(--text-primary);">Security Log Ingestion</h4>
-                    <p class="text-muted small mb-0">Upload Apache, Nginx, or Web server access log files for automated threat heuristic scanning</p>
+                    <p class="small mb-0" style="color: var(--text-secondary);">Upload Apache, Nginx, or Web server access log files for automated threat heuristic scanning</p>
                 </div>
 
                 <form method="post" enctype="multipart/form-data" id="log-upload-form">
@@ -39,7 +39,7 @@
                         </div>
 
                         <h5 class="fw-semibold mb-1" style="color: var(--text-primary);">Drag &amp; drop log file here</h5>
-                        <p class="text-muted small mb-3">Supports .log, .txt, or access logs formatted files</p>
+                        <p class="small mb-3" style="color: var(--text-secondary);">Supports .log, .txt, or access logs formatted files</p>
 
                         <button type="button" class="btn btn-outline-primary btn-sm px-3" onclick="document.getElementById('file-input').click()">
                             Browse Files
@@ -76,7 +76,7 @@
                     </div>
                 </form>
             </div>
-            <div class="card-footer text-muted small text-center">
+            <div class="card-footer small text-center" style="color: var(--text-secondary);">
                 Supported formats: Standard Common Log Format (CLF) &amp; Combined Log Format
             </div>
         </div>

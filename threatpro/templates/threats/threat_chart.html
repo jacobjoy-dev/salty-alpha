@@ -11,7 +11,7 @@
             </a>
             <h2 class="fw-bold mb-0" style="color: var(--text-primary); letter-spacing: -0.02em;">Threat Frequency Telemetry</h2>
         </div>
-        <p class="text-muted small mb-0">Analyzed log target: <strong class="text-info">{{ log_name }}</strong></p>
+        <p class="small mb-0" style="color: var(--text-secondary);">Analyzed log target: <strong class="text-info">{{ log_name }}</strong></p>
     </div>
     <div>
         <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-sm">
@@ -40,17 +40,17 @@
             </div>
         {% else %}
             <div class="text-center py-5">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted mb-2">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-secondary);">
                     <circle cx="12" cy="12" r="10"/>
                     <line x1="4.93" x2="19.07" y1="4.93" y2="19.07"/>
                 </svg>
-                <h5 class="text-muted fw-semibold">No threats detected in this log</h5>
-                <p class="text-muted small mb-0">The heuristic analyzer found 0 signature anomalies for this archive.</p>
+<h5 class="fw-semibold" style="color: var(--text-secondary);">No threats detected in this log</h5>
+<p class="small mb-0" style="color: var(--text-secondary);">The heuristic analyzer found 0 signature anomalies for this archive.</p>
             </div>
         {% endif %}
     </div>
 
-    <div class="card-footer d-flex justify-content-between align-items-center text-muted small">
+    <div class="card-footer d-flex justify-content-between align-items-center small" style="color: var(--text-secondary);">
         <span>Log Target: <code>{{ log_name }}</code></span>
         <span>Categories: {{ labels|length }} detected</span>
     </div>
@@ -104,7 +104,7 @@
                     tooltip: {
                         backgroundColor: '#111a2e',
                         titleColor: '#f1f5f9',
-                        bodyColor: '#94a3b8',
+                        bodyColor: '#a8b3c0',
                         borderColor: '#1e293b',
                         borderWidth: 1,
                         padding: 10,
@@ -119,13 +119,13 @@
                     y: {
                         beginAtZero: true,
                         grid: { color: 'rgba(30, 41, 59, 0.7)' },
-                        title: { display: true, text: 'Detection Count', color: '#94a3b8', font: { size: 12, family: 'Inter' } },
-                        ticks: { stepSize: 1, color: "#64748b" }
+                        title: { display: true, text: 'Detection Count', color: '#a8b3c0', font: { size: 12, family: 'Inter' } },
+                        ticks: { stepSize: 1, color: "#94a3b8" }
                     },
                     x: {
                         grid: { display: false },
-                        title: { display: true, text: 'Signature Classification', color: '#94a3b8', font: { size: 12, family: 'Inter' } },
-                        ticks: { color: "#94a3b8", font: { weight: '500' } }
+                        title: { display: true, text: 'Signature Classification', color: '#a8b3c0', font: { size: 12, family: 'Inter' } },
+                        ticks: { color: "#a8b3c0", font: { weight: '500' } }
                     }
                 }
             }

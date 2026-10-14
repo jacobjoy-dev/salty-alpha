@@ -17,9 +17,9 @@
   --border-glow: rgba(56, 189, 248, 0.25);
 
   /* Typography / Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #a8b3c0;
   --text-inverse: #0b1220;
 
   /* Accent & Brand Colors */
@@ -31,30 +31,30 @@
   --accent-glow: 0 0 15px rgba(56, 189, 248, 0.2);
 
   /* Severity Indicator Colors */
-  --severity-low: #10b981;
-  --severity-low-bg: rgba(16, 185, 129, 0.12);
-  --severity-low-border: rgba(16, 185, 129, 0.3);
+  --severity-low: #22c55e;
+  --severity-low-bg: rgba(34, 197, 94, 0.15);
+  --severity-low-border: rgba(34, 197, 94, 0.4);
 
-  --severity-medium: #f59e0b;
-  --severity-medium-bg: rgba(245, 158, 11, 0.12);
-  --severity-medium-border: rgba(245, 158, 11, 0.3);
+  --severity-medium: #fbbf24;
+  --severity-medium-bg: rgba(251, 191, 36, 0.15);
+  --severity-medium-border: rgba(251, 191, 36, 0.4);
 
-  --severity-high: #ef4444;
-  --severity-high-bg: rgba(239, 68, 68, 0.15);
-  --severity-high-border: rgba(239, 68, 68, 0.35);
+  --severity-high: #f87171;
+  --severity-high-bg: rgba(248, 113, 113, 0.18);
+  --severity-high-border: rgba(248, 113, 113, 0.45);
 
-  --severity-critical: #ec4899;
-  --severity-critical-bg: rgba(236, 72, 153, 0.15);
+  --severity-critical: #f472b6;
+  --severity-critical-bg: rgba(244, 114, 182, 0.18);
 
   /* Status Tokens */
   --status-info: #38bdf8;
-  --status-info-bg: rgba(56, 189, 248, 0.12);
-  --status-success: #10b981;
-  --status-success-bg: rgba(16, 185, 129, 0.12);
-  --status-warning: #f59e0b;
-  --status-warning-bg: rgba(245, 158, 11, 0.12);
-  --status-danger: #ef4444;
-  --status-danger-bg: rgba(239, 68, 68, 0.15);
+  --status-info-bg: rgba(56, 189, 248, 0.15);
+  --status-success: #22c55e;
+  --status-success-bg: rgba(34, 197, 94, 0.15);
+  --status-warning: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.15);
+  --status-danger: #f87171;
+  --status-danger-bg: rgba(248, 113, 113, 0.18);
 
   /* Layout Constants */
   --sidebar-width: 250px;
@@ -154,7 +154,7 @@ body {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 700;
   padding: 0.65rem 0.75rem 0.25rem;
 }
@@ -165,7 +165,7 @@ body {
   gap: 0.75rem;
   padding: 0.625rem 0.85rem;
   border-radius: var(--radius-sm);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -176,6 +176,7 @@ body {
 .soc-nav-link:hover {
   color: var(--text-primary);
   background-color: var(--bg-surface-elevated);
+  opacity: 1;
 }
 
 .soc-nav-link.active {
@@ -201,14 +202,13 @@ body {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  opacity: 0.85;
 }
 
 .soc-sidebar-footer {
   padding: 0.85rem 1rem;
   border-top: 1px solid var(--border-subtle);
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -508,7 +508,7 @@ body {
 
 .table thead th {
   background-color: var(--bg-surface-elevated) !important;
-  color: var(--text-muted) !important;
+  color: var(--text-primary) !important;
   text-transform: uppercase;
   font-size: 0.72rem;
   letter-spacing: 0.05em;
@@ -571,24 +571,24 @@ body {
 .alert-success {
   background-color: var(--status-success-bg);
   border-color: var(--severity-low-border);
-  color: #34d399;
+  color: #4ade80;
 }
 
 .alert-danger, .alert-error {
   background-color: var(--status-danger-bg);
   border-color: var(--severity-high-border);
-  color: #f87171;
+  color: #fca5a5;
 }
 
 .alert-warning {
   background-color: var(--status-warning-bg);
   border-color: var(--severity-medium-border);
-  color: #fbbf24;
+  color: #fde047;
 }
 
 .alert-info {
   background-color: var(--status-info-bg);
-  border-color: rgba(56, 189, 248, 0.3);
+  border-color: rgba(56, 189, 248, 0.4);
   color: #7dd3fc;
 }
 

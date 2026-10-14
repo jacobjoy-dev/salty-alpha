@@ -51,14 +51,14 @@
                     <div class="row g-3 mb-4">
                         <div class="col-sm-6">
                             <div class="p-3 rounded" style="background: var(--bg-base); border: 1px solid var(--border-subtle);">
-                                <span class="text-muted small text-uppercase fw-semibold">Domain Target</span>
+                                <span class="small text-uppercase fw-semibold" style="color: var(--text-secondary);">Domain Target</span>
                                 <h4 class="font-monospace fw-bold mt-1 mb-0" style="color: var(--text-primary);">{{ query }}</h4>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="p-3 rounded" style="background: var(--bg-base); border: 1px solid var(--border-subtle);">
-                                <span class="text-muted small text-uppercase fw-semibold">Threat Detection Rate</span>
+                                <span class="small text-uppercase fw-semibold" style="color: var(--text-secondary);">Threat Detection Rate</span>
                                 <h4 class="fw-bold mt-1 mb-0 {% if result.reputation_score >= 50 %}text-danger{% elif result.reputation_score > 0 %}text-warning{% else %}text-success{% endif %}">
                                     {{ result.reputation_score }}%
                                 </h4>
@@ -70,7 +70,7 @@
                         <table class="table align-middle">
                             <tbody>
                                 <tr>
-                                    <td class="text-muted" style="width: 35%;">Classification Verdict</td>
+                                    <td class="small" style="color: var(--text-secondary); width: 35%;">Classification Verdict</td>
                                     <td>
                                         {% if result.blacklisted or result.reputation_score >= 50 %}
                                             <span class="badge badge-high">Malicious Domain Activity</span>
@@ -82,7 +82,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-muted">Blacklist Status</td>
+                                    <td class="small" style="color: var(--text-secondary);">Blacklist Status</td>
                                     <td>
                                         {% if result.blacklisted %}
                                             <span class="badge badge-high">Flagged / Listed</span>
@@ -93,13 +93,13 @@
                                 </tr>
                                 {% if result.registrar %}
                                 <tr>
-                                    <td class="text-muted">Registrar</td>
+                                    <td class="small" style="color: var(--text-secondary);">Registrar</td>
                                     <td>{{ result.registrar }}</td>
                                 </tr>
                                 {% endif %}
                                 {% if result.categories %}
                                 <tr>
-                                    <td class="text-muted">Threat Categories</td>
+                                    <td class="small" style="color: var(--text-secondary);">Threat Categories</td>
                                     <td>{{ result.categories }}</td>
                                 </tr>
                                 {% endif %}
@@ -109,26 +109,31 @@
 
                     {% if result.message %}
                         <div class="p-3 rounded mt-3" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle);">
-                            <span class="text-muted small fw-semibold d-block mb-1">Intelligence Summary:</span>
+                            <span class="small fw-semibold d-block mb-1" style="color: var(--text-secondary);">Intelligence Summary:</span>
                             <p class="mb-0 small" style="color: var(--text-secondary);">{{ result.message }}</p>
                         </div>
                     {% endif %}
                 </div>
 
                 <div class="card-footer d-flex justify-content-between align-items-center">
-                    <span class="text-muted small">Intelligence Source: VirusTotal Engine</span>
+                    <span class="small" style="color: var(--text-secondary);">Intelligence Source: VirusTotal Engine</span>
                     <a href="{% url 'check_reputation' %}" class="btn btn-primary btn-sm">Lookup Another Target</a>
                 </div>
             </div>
         {% else %}
             <div class="card shadow-sm text-center p-5 mb-4">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-warning mb-2 mx-auto">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--status-warning);">
                     <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
                     <line x1="12" x2="12" y1="9" y2="13"/>
                     <line x1="12" x2="12.01" y1="17" y2="17"/>
                 </svg>
                 <h5 class="fw-semibold">No Domain Records Found</h5>
-                <p class="text-muted small mb-3">Target domain <code>{{ query }}</code> could not be scanned or returned no threat records.</p>
+                <p class="small mb-3" style="color: var(--text-secondary);">Target domain <code>{{ query }}</code> could not be scanned or returned no threat records.</p>
+                {% if error %}
+                <div class="alert alert-danger small py-2 mb-3" style="font-size: 0.8rem;">
+                    <strong>Error:</strong> {{ error }}
+                </div>
+                {% endif %}
                 <div>
                     <a href="{% url 'check_reputation' %}" class="btn btn-primary btn-sm">Try Another Search</a>
                 </div>

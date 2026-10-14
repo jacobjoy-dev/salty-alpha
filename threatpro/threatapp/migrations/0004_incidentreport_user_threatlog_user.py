@@ -8,18 +8,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('threatapp', '0003_enquiry'),
+        ("threatapp", "0003_enquiry"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='incidentreport',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='incidents', to=settings.AUTH_USER_MODEL),
+            model_name="incidentreport",
+            name="user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="incidents",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='threatlog',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='logs', to=settings.AUTH_USER_MODEL),
+            model_name="threatlog",
+            name="user",
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.CASCADE, related_name="logs", to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

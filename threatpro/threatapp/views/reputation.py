@@ -27,7 +27,7 @@ def check_reputation(request):
     rep_form = ReputationCheckForm()
     log_form = LogUploadForm()
     if request.method == "POST":
-        if 'query' in request.POST:
+        if "query" in request.POST:
             rep_form = ReputationCheckForm(request.POST)
             if rep_form.is_valid():
                 query = rep_form.cleaned_data["query"]
@@ -53,17 +53,19 @@ def check_reputation(request):
                             "blacklisted": result.get("blacklisted", False),
                         },
                     )
-                return render(request, template_name, {
-                    "query": query, "result": result, "error": error, "is_ip": is_ip
-                })
-        elif 'log_file' in request.FILES:
+                return render(
+                    request, template_name, {"query": query, "result": result, "error": error, "is_ip": is_ip}
+                )
+        elif "log_file" in request.FILES:
             log_form = LogUploadForm(request.POST, request.FILES)
             if log_form.is_valid():
                 log_entry = log_form.save(commit=False)
                 log_entry.user = request.user
                 log_entry.save()
                 analyze_logs(log_entry)
-                return redirect('log_analysis_report')
-    return render(request, "threats/reputation_check.html", {
-        "rep_form": rep_form, "log_form": log_form, "result": None, "error": None
-    })
+                return redirect("log_analysis_report")
+    return render(
+        request,
+        "threats/reputation_check.html",
+        {"rep_form": rep_form, "log_form": log_form, "result": None, "error": None},
+    )
